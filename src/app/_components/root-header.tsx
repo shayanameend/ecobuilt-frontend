@@ -13,7 +13,13 @@ import { cn } from "~/lib/utils";
 export function RootHeader() {
   const pathname = usePathname();
 
-  const navLinks = Object.values(navRoutes);
+  const navLinks = Object.values({
+    home: {
+      label: "Home",
+      url: () => "/",
+    },
+    ...navRoutes,
+  });
 
   return (
     <header className={cn("py-4 px-8")}>
@@ -35,7 +41,12 @@ export function RootHeader() {
               <Link href={route.url()}>
                 <Button
                   variant="ghost"
-                  className={cn(pathname.includes(route.url()) && "bg-accent")}
+                  className={cn(
+                    pathname === "/" && route.url() === "/" && "bg-accent",
+                    route.url() !== "/" &&
+                      pathname.startsWith(route.url()) &&
+                      "bg-accent",
+                  )}
                 >
                   {route.label}
                 </Button>

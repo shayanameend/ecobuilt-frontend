@@ -5,9 +5,9 @@ import { MessageCircleIcon } from "lucide-react";
 
 import { RootHeader } from "~/app/_components/root-header";
 import { Button } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
 
 import "~/styles/globals.css";
-import { cn } from "~/lib/utils";
 
 export const metadata: Metadata = {
   title: "EcoBuiltConnect",

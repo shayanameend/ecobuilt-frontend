@@ -18,6 +18,7 @@ export function RootHeader() {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const [isSearching, setIsSearching] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const navLinks = Object.values({
     home: {
@@ -48,6 +49,16 @@ export function RootHeader() {
           />
         </Link>
         <Input
+          onKeyUp={(event) => {
+            if (event.key === "Escape") {
+              setIsSearching(false);
+              setSearchQuery("");
+            }
+          }}
+          onChange={(event) => {
+            setSearchQuery(event.target.value);
+          }}
+          value={searchQuery}
           ref={searchInputRef}
           placeholder="Search..."
           className={cn("max-w-md h-9", !isSearching && "hidden")}

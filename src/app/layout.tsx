@@ -21,7 +21,9 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
         {children}
         <Button
           size="icon"
-          className={cn("fixed bottom-4 right-4 rounded-full")}
+          className={cn(
+            "fixed bottom-8 right-8 rounded-full size-12 [&_svg]:size-6",
+          )}
         >
           <MessageCircleIcon />
         </Button>

@@ -45,7 +45,7 @@ export function RootHeader() {
           <Image
             src={assets.logo.src}
             alt={assets.logo.alt}
-            className={cn("h-16 w-auto")}
+            className={cn("h-20 w-auto")}
           />
         </Link>
         <Input
@@ -90,14 +90,21 @@ export function RootHeader() {
             }}
             size="icon"
             variant="ghost"
-            className={cn("size-8", isSearching && "[&_svg]:size-5")}
+            className={cn(
+              "size-10 [&_svg]:size-5",
+              isSearching && "[&_svg]:size-5",
+            )}
           >
             {isSearching ? <XIcon /> : <SearchIcon />}
           </Button>
-          <Button size="icon" variant="ghost" className={cn("size-8")}>
+          <Button
+            size="icon"
+            variant="ghost"
+            className={cn("size-10 [&_svg]:size-5")}
+          >
             <ShoppingCartIcon />
           </Button>
-          <Button size="sm" className={cn("ml-4")}>
+          <Button className={cn("ml-4")}>
             <Link href={authRoutes.signIn.url()}>
               {authRoutes.signIn.label}
             </Link>

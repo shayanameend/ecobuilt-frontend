@@ -2,10 +2,14 @@ import { cn } from "~/lib/utils";
 
 export default function HomePage() {
   return (
-    <>
-      <section className={cn("py-4 px-8")}>
+    <main>
+      <section
+        className={cn(
+          "min-h-[calc(100svh_-_7rem)] flex items-center justify-center",
+        )}
+      >
         <h2>Home Page</h2>
       </section>
-    </>
+    </main>
   );
 }

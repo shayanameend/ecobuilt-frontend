@@ -4,8 +4,8 @@ const navRoutes = {
     url: () => "/marketplace",
   },
   vendors: {
-    label: "Your Listings",
-    url: () => "/your-listings",
+    label: "Listings",
+    url: () => "/listings",
   },
   community: {
     label: "Community Forum",

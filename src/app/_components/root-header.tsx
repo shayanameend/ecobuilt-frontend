@@ -35,7 +35,7 @@ export function RootHeader() {
   }, [isSearching]);
 
   return (
-    <header className={cn("py-4 px-8")}>
+    <header className={cn("py-4 px-8 sticky top-0 z-10 bg-white")}>
       <nav
         className={cn(
           "max-w-screen-xl mx-auto flex justify-between items-center",

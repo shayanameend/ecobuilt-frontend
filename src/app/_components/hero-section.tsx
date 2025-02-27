@@ -16,7 +16,7 @@ export function HeroSection() {
         <div className={cn("space-y-4")}>
           <Badge variant="outline">WHO ARE WE</Badge>
           <h2 className={"text-black/75 text-5xl font-bold"}>
-            The one-stop B2B marketplace for construction materials{" "}
+            The one-stop B2B marketplace for construction materials.
           </h2>
           <p className={"text-muted-foreground text-lg font-medium"}>
             Post, Buy, & Sell Building Materials & Appliances. Simpler.

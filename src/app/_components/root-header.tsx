@@ -111,7 +111,7 @@ export function RootHeader() {
                 <ShoppingCartIcon />
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 relative z-50">
+            <PopoverContent className="w-80">
               <h4 className="font-medium leading-none">Your Cart</h4>
               <p className="text-sm text-muted-foreground">
                 No products in the cart.

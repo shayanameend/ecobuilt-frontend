@@ -26,7 +26,7 @@ export function WhatSection() {
         <div className={cn("space-y-4")}>
           <Badge variant="outline">WHAT WE OFFER</Badge>
           <h2 className={"text-black/75 text-5xl font-bold"}>
-          We Make Your Construction Purchases Easier!
+            We Make Your Construction Purchases Easier!
           </h2>
           <p className={"text-muted-foreground text-lg font-medium"}>
             We save your time and money when buying construction materials. You
@@ -36,7 +36,7 @@ export function WhatSection() {
         </div>
         <div className={cn("space-x-4")}>
           <Button variant="default" size="lg">
-            Go to our Marketplace
+            Go to Marketplace
           </Button>
         </div>
       </div>

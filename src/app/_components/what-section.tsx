@@ -1,4 +1,4 @@
-import { ClockIcon } from "lucide-react";
+import { CircleDollarSignIcon, ClockIcon, LockIcon, MonitorSmartphoneIcon, RecycleIcon } from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -38,53 +38,45 @@ export function WhatSection() {
       <div className={cn("flex-1 py-4 px-8 grid grid-cols-2 gap-4")}>
         <Card>
           <CardHeader>
-            <ClockIcon size={36} className={cn("text-primary/70")} />
+            <RecycleIcon size={36} className={cn("text-primary/70")} />
           </CardHeader>
           <CardContent className={cn("space-y-2")}>
-            <CardTitle>Save Time</CardTitle>
+            <CardTitle>Sustainability First</CardTitle>
             <CardDescription>
-              Stop spending hours on the phone asking for availability or price.
-              Click a button and the quotes are coming your way. We saved our
-              contractors 35% of shopping time.
+            We help businesses make eco-conscious decisions by giving discarded materials a second life.
             </CardDescription>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <ClockIcon size={36} className={cn("text-primary/70")} />
+            <MonitorSmartphoneIcon size={36} className={cn("text-primary/70")} />
           </CardHeader>
           <CardContent className={cn("space-y-2")}>
-            <CardTitle>Save Time</CardTitle>
+            <CardTitle>Tech-Driven Platform</CardTitle>
             <CardDescription>
-              Stop spending hours on the phone asking for availability or price.
-              Click a button and the quotes are coming your way. We saved our
-              contractors 35% of shopping time.
+            Our intuitive marketplace features real-time inventory updates, secure payments, and AI-powered recommendations.
             </CardDescription>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <ClockIcon size={36} className={cn("text-primary/70")} />
+            <LockIcon size={36} className={cn("text-primary/70")} />
           </CardHeader>
           <CardContent className={cn("space-y-2")}>
-            <CardTitle>Save Time</CardTitle>
+            <CardTitle>Verified Suppliers</CardTitle>
             <CardDescription>
-              Stop spending hours on the phone asking for availability or price.
-              Click a button and the quotes are coming your way. We saved our
-              contractors 35% of shopping time.
+            We use blockchain technology to verify suppliers and ensure transparency in every deal.
             </CardDescription>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <ClockIcon size={36} className={cn("text-primary/70")} />
+            <CircleDollarSignIcon size={36} className={cn("text-primary/70")} />
           </CardHeader>
           <CardContent className={cn("space-y-2")}>
-            <CardTitle>Save Time</CardTitle>
+            <CardTitle>Cost Savings </CardTitle>
             <CardDescription>
-              Stop spending hours on the phone asking for availability or price.
-              Click a button and the quotes are coming your way. We saved our
-              contractors 35% of shopping time.
+            Buyers access affordable materials, while suppliers monetize waste — creating a win-win ecosystem.
             </CardDescription>
           </CardContent>
         </Card>

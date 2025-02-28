@@ -8,6 +8,11 @@ import { useEffect, useRef, useState } from "react";
 import { assets } from "~/assets";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "~/components/ui/popover";
 import { authRoutes, navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
@@ -96,13 +101,23 @@ export function RootHeader() {
           >
             {isSearching ? <XIcon /> : <SearchIcon />}
           </Button>
-          <Button
-            size="icon"
-            variant="ghost"
-            className={cn("size-10 [&_svg]:size-5")}
-          >
-            <ShoppingCartIcon />
-          </Button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+                className={cn("size-10 [&_svg]:size-5")}
+              >
+                <ShoppingCartIcon />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 relative z-50">
+              <h4 className="font-medium leading-none">Your Cart</h4>
+              <p className="text-sm text-muted-foreground">
+                No products in the cart.
+              </p>
+            </PopoverContent>
+          </Popover>
           <Button className={cn("ml-4")}>
             <Link href={authRoutes.signIn.url()}>
               {authRoutes.signIn.label}

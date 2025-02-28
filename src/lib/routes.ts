@@ -9,22 +9,22 @@ const navRoutes = {
   },
   community: {
     label: "Community Forum",
-    url: () => "/community-forum",
+    url: () => "/community",
   },
   contact: {
     label: "Contact Us",
-    url: () => "/contact-us",
+    url: () => "/contact",
   },
 };
 
 const authRoutes = {
   signIn: {
     label: "Sign In",
-    url: () => "/sign-in",
+    url: () => "/auth/sign-in",
   },
   signUp: {
     label: "Sign Up",
-    url: () => "/sign-up",
+    url: () => "/auth/sign-up",
   },
 };
 

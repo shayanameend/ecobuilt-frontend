@@ -1,6 +1,9 @@
+import { default as Link } from "next/link";
+
 import { assets } from "~/assets";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
+import { navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function WhySection() {
@@ -25,9 +28,11 @@ export function WhySection() {
           </p>
         </div>
         <div className={cn("space-x-4")}>
-          <Button variant="default" size="lg">
-            Become a Seller
-          </Button>
+          <Link href={navRoutes.listings.url()}>
+            <Button variant="default" size="lg">
+              Become a Seller
+            </Button>
+          </Link>
         </div>
       </div>
       <div className={cn("flex-1 -m-24 py-4 px-36")}>

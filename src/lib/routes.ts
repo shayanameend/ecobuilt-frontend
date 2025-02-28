@@ -1,9 +1,9 @@
 const navRoutes = {
-  products: {
+  marketplace: {
     label: "Marketplace",
     url: () => "/marketplace",
   },
-  vendors: {
+  listings: {
     label: "Listings",
     url: () => "/listings",
   },

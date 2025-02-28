@@ -1,6 +1,9 @@
+import { default as Link } from "next/link";
+
 import { assets } from "~/assets";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
+import { navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function HeroSection() {
@@ -22,12 +25,16 @@ export function HeroSection() {
           </p>
         </div>
         <div className={cn("space-x-4")}>
-          <Button variant="secondary" size="lg">
-            Learn More
-          </Button>
-          <Button variant="default" size="lg">
-            Get Started
-          </Button>
+          <Link href={"/"}>
+            <Button variant="secondary" size="lg">
+              Learn More
+            </Button>
+          </Link>
+          <Link href={navRoutes.marketplace.url()}>
+            <Button variant="default" size="lg">
+              Get Started
+            </Button>
+          </Link>
         </div>
       </div>
       <div className={cn("flex-1 -mt-24 py-4 px-8")}>

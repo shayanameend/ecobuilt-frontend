@@ -4,6 +4,8 @@ import {
   MonitorSmartphoneIcon,
   RecycleIcon,
 } from "lucide-react";
+import { default as Link } from "next/link";
+
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -13,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function WhatSection() {
@@ -35,9 +38,11 @@ export function WhatSection() {
           </p>
         </div>
         <div className={cn("space-x-4")}>
-          <Button variant="default" size="lg">
-            Go to Marketplace
-          </Button>
+          <Link href={navRoutes.marketplace.url()}>
+            <Button variant="default" size="lg">
+              Go to Marketplace
+            </Button>
+          </Link>
         </div>
       </div>
       <div className={cn("flex-1 py-4 px-8 grid grid-cols-2 gap-4")}>

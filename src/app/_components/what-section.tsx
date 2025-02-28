@@ -1,4 +1,9 @@
-import { CircleDollarSignIcon, ClockIcon, LockIcon, MonitorSmartphoneIcon, RecycleIcon } from "lucide-react";
+import {
+  CircleDollarSignIcon,
+  LockIcon,
+  MonitorSmartphoneIcon,
+  RecycleIcon,
+} from "lucide-react";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -43,18 +48,23 @@ export function WhatSection() {
           <CardContent className={cn("space-y-2")}>
             <CardTitle>Sustainability First</CardTitle>
             <CardDescription>
-            We help businesses make eco-conscious decisions by giving discarded materials a second life.
+              We help businesses make eco-conscious decisions by giving
+              discarded materials a second life.
             </CardDescription>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <MonitorSmartphoneIcon size={36} className={cn("text-primary/70")} />
+            <MonitorSmartphoneIcon
+              size={36}
+              className={cn("text-primary/70")}
+            />
           </CardHeader>
           <CardContent className={cn("space-y-2")}>
             <CardTitle>Tech-Driven Platform</CardTitle>
             <CardDescription>
-            Our intuitive marketplace features real-time inventory updates, secure payments, and AI-powered recommendations.
+              Our intuitive marketplace features real-time inventory updates,
+              secure payments, and AI-powered recommendations.
             </CardDescription>
           </CardContent>
         </Card>
@@ -65,7 +75,8 @@ export function WhatSection() {
           <CardContent className={cn("space-y-2")}>
             <CardTitle>Verified Suppliers</CardTitle>
             <CardDescription>
-            We use blockchain technology to verify suppliers and ensure transparency in every deal.
+              We use blockchain technology to verify suppliers and ensure
+              transparency in every deal.
             </CardDescription>
           </CardContent>
         </Card>
@@ -76,7 +87,8 @@ export function WhatSection() {
           <CardContent className={cn("space-y-2")}>
             <CardTitle>Cost Savings </CardTitle>
             <CardDescription>
-            Buyers access affordable materials, while suppliers monetize waste — creating a win-win ecosystem.
+              Buyers access affordable materials, while suppliers monetize waste
+              — creating a win-win ecosystem.
             </CardDescription>
           </CardContent>
         </Card>

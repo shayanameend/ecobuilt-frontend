@@ -1,7 +1,6 @@
 "use client";
 
 import { SearchIcon, ShoppingCartIcon, XIcon } from "lucide-react";
-import { default as Image } from "next/image";
 import { default as Link } from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -42,10 +41,10 @@ export function RootHeader() {
         )}
       >
         <Link href="/">
-          <Image
-            src={assets.logo.src}
+          <img
+            src={assets.logo.asset.src}
             alt={assets.logo.alt}
-            className={cn("h-20 w-auto")}
+            className={cn("h-24 w-auto")}
           />
         </Link>
         <Input

@@ -1,5 +1,3 @@
-import { default as Image } from "next/image";
-
 import { assets } from "~/assets";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -19,23 +17,23 @@ export function WhySection() {
             We Work For You!
           </h2>
           <p className={"text-muted-foreground text-lg font-medium"}>
-          At EcoBuilt Connect, we are committed to transforming the construction
-           industry by reducing waste, fostering sustainability, and creating 
-           opportunities for a greener future. Our goal is to revolutionize 
-           the way construction materials are sourced, reused, and recycled. 
-           
+            At EcoBuilt Connect, we are committed to transforming the
+            construction industry by reducing waste, fostering sustainability,
+            and creating opportunities for a greener future. Our goal is to
+            revolutionize the way construction materials are sourced, reused,
+            and recycled.
           </p>
         </div>
         <div className={cn("space-x-4")}>
           <Button variant="default" size="lg">
-           Become a Seller
+            Become a Seller
           </Button>
         </div>
       </div>
-      <div className={cn("flex-1 -m-24 py-4 px-8")}>
-        <Image
-          src={assets.workSectionBanner.src}
-          alt={assets.workSectionBanner.alt}
+      <div className={cn("flex-1 -m-24 py-4 px-36")}>
+        <img
+          src={assets.whySectionBanner.asset.src}
+          alt={assets.whySectionBanner.alt}
           className={cn("object-cover")}
         />
       </div>

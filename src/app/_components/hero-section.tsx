@@ -1,5 +1,3 @@
-import { default as Image } from "next/image";
-
 import { assets } from "~/assets";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
@@ -16,10 +14,11 @@ export function HeroSection() {
         <div className={cn("space-y-4")}>
           <Badge variant="outline">WHO ARE WE</Badge>
           <h2 className={"text-black/75 text-5xl font-bold"}>
-          Cost-effective solutions for the construction sector.
+            Cost-effective solutions for the construction sector.
           </h2>
           <p className={"text-muted-foreground text-lg font-medium"}>
-          Connect with trusted vendors and contractors to reduce waste, cut costs and contribute to a greener future.
+            Connect with trusted vendors and contractors to reduce waste, cut
+            costs and contribute to a greener future.
           </p>
         </div>
         <div className={cn("space-x-4")}>
@@ -32,8 +31,8 @@ export function HeroSection() {
         </div>
       </div>
       <div className={cn("flex-1 -mt-24 py-4 px-8")}>
-        <Image
-          src={assets.heroSectionBanner.src}
+        <img
+          src={assets.heroSectionBanner.asset.src}
           alt={assets.heroSectionBanner.alt}
           className={cn("object-cover")}
         />

@@ -22,11 +22,11 @@ export function WhatSection() {
         "py-16 px-24 flex flex-row gap-12 items-center justify-center",
       )}
     >
-      <div className={cn("flex-1 -mt-36 py-4 px-8 space-y-4")}>
+      <div className={cn("flex-1 -mt-24 py-4 px-8 space-y-4")}>
         <div className={cn("space-y-4")}>
           <Badge variant="outline">WHAT WE OFFER</Badge>
           <h2 className={"text-black/75 text-5xl font-bold"}>
-            We Work For You!
+          We Make Your Construction Purchases Easier!
           </h2>
           <p className={"text-muted-foreground text-lg font-medium"}>
             We save your time and money when buying construction materials. You
@@ -36,7 +36,7 @@ export function WhatSection() {
         </div>
         <div className={cn("space-x-4")}>
           <Button variant="default" size="lg">
-            Go to Marketplace
+            Go to our Marketplace
           </Button>
         </div>
       </div>

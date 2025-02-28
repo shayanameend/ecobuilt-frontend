@@ -119,8 +119,8 @@ export function RootHeader() {
             </PopoverContent>
           </Popover>
           <Button className={cn("ml-4")}>
-            <Link href={authRoutes.signIn.url()}>
-              {authRoutes.signIn.label}
+            <Link href={authRoutes.signUp.url()}>
+            Join Us
             </Link>
           </Button>
         </ul>

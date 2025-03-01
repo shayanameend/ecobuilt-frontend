@@ -6,6 +6,7 @@ import { MessageCircleIcon } from "lucide-react";
 import { RootFooter } from "~/app/_components/root-footer";
 import { RootHeader } from "~/app/_components/root-header";
 import { Button } from "~/components/ui/button";
+import { openSans } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
 
 import "~/styles/globals.css";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
   return (
     <html lang="en">
-      <body>
+      <body className={cn("antialiased", openSans.className)}>
         <RootHeader />
         {children}
         <RootFooter />

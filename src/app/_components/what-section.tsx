@@ -15,6 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import { domine } from "~/lib/fonts";
 import { navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
@@ -25,10 +26,12 @@ export function WhatSection() {
         "py-16 px-24 flex flex-row gap-12 items-center justify-center",
       )}
     >
-      <div className={cn("flex-1 -mt-24 py-4 px-8 space-y-4")}>
+      <div className={cn("flex-1 -mt-24 py-4 px-8 space-y-8")}>
         <div className={cn("space-y-4")}>
           <Badge variant="outline">WHAT WE OFFER</Badge>
-          <h2 className={"text-black/75 text-5xl font-bold"}>
+          <h2
+            className={cn("text-black/75 text-5xl font-bold", domine.className)}
+          >
             We Make Your Construction Purchases Easier!
           </h2>
           <p className={"text-muted-foreground text-lg font-medium"}>

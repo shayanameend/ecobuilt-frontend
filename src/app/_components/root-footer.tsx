@@ -1,12 +1,12 @@
 "use client";
 
-import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import {
   SiFacebook,
   SiInstagram,
   SiX,
   SiYoutube,
 } from "@icons-pack/react-simple-icons";
+import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { default as Link } from "next/link";
 import { usePathname } from "next/navigation";
 

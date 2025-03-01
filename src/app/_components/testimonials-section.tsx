@@ -1,13 +1,5 @@
-import {
-  CircleDollarSignIcon,
-  LockIcon,
-  MonitorSmartphoneIcon,
-  RecycleIcon,
-} from "lucide-react";
-import { default as Link } from "next/link";
-
+import { assets } from "~/assets";
 import { Badge } from "~/components/ui/badge";
-import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
@@ -16,87 +8,97 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { domine } from "~/lib/fonts";
-import { navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function TestimonialsSection() {
   return (
     <section
       className={cn(
-        "py-16 px-24 flex flex-row gap-12 items-center justify-center",
+        "py-8 px-24 flex flex-col gap-12 items-center justify-center",
       )}
     >
-      <div className={cn("flex-1 -mt-24 py-4 px-8 space-y-8")}>
-        <div className={cn("space-y-4")}>
-          <Badge variant="outline">What Our Clients Say</Badge>
-          <h2
-            className={cn("text-black/75 text-5xl font-bold", domine.className)}
-          >
-            We Make Your Construction Purchases Easier!
-          </h2>
-          <p className={"ml-1 text-muted-foreground text-lg font-medium"}>
-            We save your time and money when buying construction materials. You
-            compare, click, and buy from credible, reliable vendors in your
-            area.
-          </p>
-        </div>
-        <div className={cn("space-x-4")}>
-          <Link href={navRoutes.marketplace.url()}>
-            <Button variant="default" size="lg">
-              Go to Marketplace
-            </Button>
-          </Link>
-        </div>
+      <div className={cn("text-center space-y-4")}>
+        <Badge variant="outline">Testimonials</Badge>
+        <h2
+          className={cn(
+            "max-w-screen-sm mx-auto text-black/75 text-5xl font-bold",
+            domine.className,
+          )}
+        >
+          Hear from Our Satisfied Customers!
+        </h2>
+        <p
+          className={
+            "max-w-screen-lg mx-auto text-muted-foreground text-lg font-medium"
+          }
+        >
+          Our clients love the convenience and savings we provide. Read their
+          testimonials to see how we've helped them streamline their
+          construction material purchases.
+        </p>
       </div>
-      <div className={cn("flex-1 py-4 px-8 grid grid-cols-2 gap-4")}>
-        <Card>
-          <CardHeader>
-            <RecycleIcon size={36} className={cn("text-primary/70")} />
-          </CardHeader>
-          <CardContent className={cn("space-y-2")}>
-            <CardTitle>Sustainability First</CardTitle>
-            <CardDescription>
-              We help businesses make eco-conscious decisions by giving
-              discarded materials a second life.
-            </CardDescription>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <MonitorSmartphoneIcon
-              size={36}
-              className={cn("text-primary/70")}
+      <div
+        className={cn(
+          "max-w-screen-lg flex md:flex-row flex-wrap gap-4 justify-center items-center",
+        )}
+      >
+        <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
+          <CardHeader className={cn("p-2")}>
+            <img
+              src={assets.johnDoe.asset.src}
+              alt={assets.johnDoe.alt}
+              className={cn("size-24 rounded-full")}
             />
           </CardHeader>
-          <CardContent className={cn("space-y-2")}>
-            <CardTitle>Tech-Driven Platform</CardTitle>
-            <CardDescription>
-              Our intuitive marketplace features real-time inventory updates,
-              secure payments, and AI-powered recommendations.
+          <CardContent className={cn("space-y-2 p-2")}>
+            <CardTitle>
+              <h3 className={cn("text-xl font-semibold")}>
+                {assets.johnDoe.alt}
+              </h3>
+            </CardTitle>
+            <CardDescription className={cn("max-w-64")}>
+              "EcoBuilt has transformed the way we source materials. The
+              platform is user-friendly and the savings are incredible!"
             </CardDescription>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <LockIcon size={36} className={cn("text-primary/70")} />
+        <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
+          <CardHeader className={cn("p-2")}>
+            <img
+              src={assets.janeDoe.asset.src}
+              alt={assets.janeDoe.alt}
+              className={cn("size-24 rounded-full")}
+            />
           </CardHeader>
-          <CardContent className={cn("space-y-2")}>
-            <CardTitle>Verified Suppliers</CardTitle>
-            <CardDescription>
-              We use blockchain technology to verify suppliers and ensure
-              transparency in every deal.
+          <CardContent className={cn("space-y-2 p-2")}>
+            <CardTitle>
+              <h3 className={cn("text-xl font-semibold")}>
+                {assets.janeDoe.alt}
+              </h3>
+            </CardTitle>
+            <CardDescription className={cn("max-w-64")}>
+              "EcoBuilt has transformed the way we source materials. The
+              platform is user-friendly and the savings are incredible!"
             </CardDescription>
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader>
-            <CircleDollarSignIcon size={36} className={cn("text-primary/70")} />
+        <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
+          <CardHeader className={cn("p-2")}>
+            <img
+              src={assets.johnSmith.asset.src}
+              alt={assets.johnSmith.alt}
+              className={cn("size-24 rounded-full")}
+            />
           </CardHeader>
-          <CardContent className={cn("space-y-2")}>
-            <CardTitle>Cost Savings </CardTitle>
-            <CardDescription>
-              Buyers access affordable materials, while suppliers monetize waste
-              — creating a win-win ecosystem.
+          <CardContent className={cn("space-y-2 p-2")}>
+            <CardTitle>
+              <h3 className={cn("text-xl font-semibold")}>
+                {assets.johnSmith.alt}
+              </h3>
+            </CardTitle>
+            <CardDescription className={cn("max-w-64")}>
+              "EcoBuilt has transformed the way we source materials. The
+              platform is user-friendly and the savings are incredible!"
             </CardDescription>
           </CardContent>
         </Card>

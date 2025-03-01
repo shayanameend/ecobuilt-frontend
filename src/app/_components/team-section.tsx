@@ -7,16 +7,16 @@ import { domine } from "~/lib/fonts";
 import { navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
-export function WhySection() {
+export function TeamSection() {
   return (
     <section
       className={cn(
-        "py-4 pb-32 px-24 flex flex-row-reverse gap-12 items-center justify-center",
+        "py-24 px-24 flex flex-row gap-12 items-center justify-center",
       )}
     >
-      <div className={cn("flex-1 -mt-10 py-4 px-8 space-y-8")}>
+      <div className={cn("flex-1 -mt-6 py-4 px-8 space-y-8")}>
         <div className={cn("space-y-4")}>
-          <Badge variant="outline">WHY CHOOSE US</Badge>
+          <Badge variant="outline">Meet Our Mission</Badge>
           <h2
             className={cn("text-black/75 text-5xl font-bold", domine.className)}
           >
@@ -31,17 +31,17 @@ export function WhySection() {
           </p>
         </div>
         <div className={cn("space-x-4")}>
-          <Link href={navRoutes.marketplace.url()}>
+          <Link href={navRoutes.listings.url()}>
             <Button variant="default" size="lg">
-              Become a Buyer
+              Become a Seller
             </Button>
           </Link>
         </div>
       </div>
       <div className={cn("flex-1 -m-24 py-4 px-24")}>
         <img
-          src={assets.whySectionBanner.asset.src}
-          alt={assets.whySectionBanner.alt}
+          src={assets.teamSectionBanner.asset.src}
+          alt={assets.teamSectionBanner.alt}
           className={cn("object-cover")}
         />
       </div>

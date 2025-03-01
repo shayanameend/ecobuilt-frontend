@@ -28,9 +28,7 @@ export function WhatSection() {
     >
       <div className={cn("flex-1 -mt-24 py-4 px-8 space-y-8")}>
         <div className={cn("space-y-4")}>
-          <Badge variant="outline" className={cn("ml-1")}>
-            WHAT WE OFFER
-          </Badge>
+          <Badge variant="outline">WHAT WE OFFER</Badge>
           <h2
             className={cn("text-black/75 text-5xl font-bold", domine.className)}
           >

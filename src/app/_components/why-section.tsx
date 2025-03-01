@@ -22,7 +22,7 @@ export function WhySection() {
           >
             We Work For You!
           </h2>
-          <p className={"text-muted-foreground text-lg font-medium"}>
+          <p className={"ml-1 text-muted-foreground text-lg font-medium"}>
             At EcoBuilt Connect, we are committed to transforming the
             construction industry by reducing waste, fostering sustainability,
             and creating opportunities for a greener future. Our goal is to

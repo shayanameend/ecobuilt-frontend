@@ -22,7 +22,7 @@ export function HeroSection() {
           >
             Cost-effective solutions for the construction sector.
           </h2>
-          <p className={"text-muted-foreground text-lg font-medium"}>
+          <p className={"ml-1 text-muted-foreground text-lg font-medium"}>
             Connect with trusted vendors and contractors to reduce waste, cut
             costs and contribute to a greener future.
           </p>

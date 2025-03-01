@@ -34,7 +34,7 @@ export function WhatSection() {
           >
             We Make Your Construction Purchases Easier!
           </h2>
-          <p className={"text-muted-foreground text-lg font-medium"}>
+          <p className={"ml-1 text-muted-foreground text-lg font-medium"}>
             We save your time and money when buying construction materials. You
             compare, click, and buy from credible, reliable vendors in your
             area.

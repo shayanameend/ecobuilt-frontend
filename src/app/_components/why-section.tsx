@@ -16,7 +16,9 @@ export function WhySection() {
     >
       <div className={cn("flex-1 -mt-10 py-4 px-8 space-y-8")}>
         <div className={cn("space-y-4")}>
-          <Badge variant="outline">WHY CHOOSE US</Badge>
+          <Badge variant="outline" className={cn("ml-1")}>
+            WHY CHOOSE US
+          </Badge>
           <h2
             className={cn("text-black/75 text-5xl font-bold", domine.className)}
           >

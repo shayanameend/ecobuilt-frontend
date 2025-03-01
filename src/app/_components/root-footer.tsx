@@ -8,7 +8,6 @@ import {
 } from "@icons-pack/react-simple-icons";
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
 import { default as Link } from "next/link";
-import { usePathname } from "next/navigation";
 
 import { assets } from "~/assets";
 import { Button } from "~/components/ui/button";
@@ -17,8 +16,6 @@ import { navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function RootFooter() {
-  const pathname = usePathname();
-
   const navLinks = Object.values({
     home: {
       label: "Home",
@@ -71,11 +68,10 @@ export function RootFooter() {
           </p>
           <div className={cn("flex gap-2")}>
             <Input placeholder="me@domain.com" className={cn("w-full")} />
-            <Link href={navRoutes.marketplace.url()}>
-              <Button variant="default" size="sm">
-                Subscribe
-              </Button>
-            </Link>
+
+            <Button variant="default" size="sm">
+              Subscribe
+            </Button>
           </div>
         </div>
         <ul className={cn("space-y-3")}>

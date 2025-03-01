@@ -16,9 +16,9 @@ export function HeroSection() {
     >
       <div className={cn("flex-1 -mt-20 py-4 px-8 space-y-12")}>
         <div className={cn("space-y-4")}>
-          {/* <Badge variant="outline" className={cn("ml-1")}>
+          <Badge variant="outline" className={cn("ml-1")}>
             WHO WE ARE
-          </Badge> */}
+          </Badge>
           <h2
             className={cn("text-black/75 text-6xl font-bold", domine.className)}
           >

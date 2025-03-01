@@ -23,7 +23,7 @@ export function WhatSection() {
   return (
     <section
       className={cn(
-        "py-16 px-24 flex flex-row gap-12 items-center justify-center",
+        "py-16 px-24 flex flex-row-reverse gap-12 items-center justify-center",
       )}
     >
       <div className={cn("flex-1 -mt-24 py-4 px-8 space-y-8")}>

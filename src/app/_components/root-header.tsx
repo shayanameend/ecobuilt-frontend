@@ -47,7 +47,6 @@ export function RootHeader() {
                   size="sm"
                   variant="ghost"
                   className={cn(
-                    "h-10 text-base",
                     pathname === "/" && route.url() === "/" && "bg-accent",
                     route.url() !== "/" &&
                       pathname.startsWith(route.url()) &&

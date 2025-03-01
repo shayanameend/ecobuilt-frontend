@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 
-import { assets } from "~/assets";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -77,7 +76,7 @@ export function ContactUsSection() {
         "py-14 px-24 min-h-[calc(100svh_-_7rem)] flex gap-12 justify-center",
       )}
     >
-      <div className={cn("flex-1 py-4 px-8 space-y-4")}>
+      <div className={cn("flex-1 py-4 px-8 space-y-12")}>
         <Form {...form}>
           <div className={cn("space-y-2")}>
             <h2
@@ -89,8 +88,8 @@ export function ContactUsSection() {
               Contact Us
             </h2>
             <p className={"ml-1 text-muted-foreground text-base font-medium"}>
-              Connect with trusted vendors and contractors to reduce waste, cut
-              costs and contribute to a greener future.
+              Reach out to us for any inquiries or support. We're here to help
+              you with your needs and ensure a sustainable future.
             </p>
           </div>
           <form

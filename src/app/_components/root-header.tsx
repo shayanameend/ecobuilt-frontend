@@ -1,12 +1,11 @@
 "use client";
 
 import { ShoppingCartIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { default as Link } from "next/link";
 import { usePathname } from "next/navigation";
 
 import { assets } from "~/assets";
-import { deleteToken } from "~/auth/server";
 import { Button } from "~/components/ui/button";
 import {
   Popover,
@@ -82,7 +81,13 @@ export function RootHeader() {
             </PopoverContent>
           </Popover>
           {session?.user ? (
-            <Button size="sm" variant="secondary" onClick={deleteToken}>
+            <Button
+              size="sm"
+              variant="secondary"
+              onClick={async () => {
+                await signOut();
+              }}
+            >
               Sign Out
             </Button>
           ) : (

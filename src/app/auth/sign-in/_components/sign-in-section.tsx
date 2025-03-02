@@ -1,11 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import { default as Link } from "next/link";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 
-import { createToken } from "~/auth/server";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -51,7 +51,7 @@ export function SignInSection() {
   });
 
   const onSubmit = async (data: zod.infer<typeof SignInFormSchema>) => {
-    await createToken(data);
+    await signIn("credentials", data);
   };
 
   return (

@@ -1,10 +1,12 @@
 "use client";
 
 import { ShoppingCartIcon } from "lucide-react";
+import { useSession } from "next-auth/react";
 import { default as Link } from "next/link";
 import { usePathname } from "next/navigation";
 
 import { assets } from "~/assets";
+import { deleteToken } from "~/auth/server";
 import { Button } from "~/components/ui/button";
 import {
   Popover,
@@ -15,6 +17,8 @@ import { authRoutes, navRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function RootHeader() {
+  const { data: session } = useSession();
+
   const pathname = usePathname();
 
   const navLinks = Object.values({
@@ -77,9 +81,15 @@ export function RootHeader() {
               </p>
             </PopoverContent>
           </Popover>
-          <Button className={cn("ml-4")}>
-            <Link href={authRoutes.signUp.url()}>Join Us</Link>
-          </Button>
+          {session?.user ? (
+            <Button size="sm" variant="secondary" onClick={deleteToken}>
+              Sign Out
+            </Button>
+          ) : (
+            <Button className={cn("ml-4")}>
+              <Link href={authRoutes.signUp.url()}>Join Us</Link>
+            </Button>
+          )}
         </ul>
       </nav>
     </header>

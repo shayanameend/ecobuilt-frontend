@@ -2,7 +2,7 @@
 
 import { signIn, signOut, update } from "~/auth";
 
-async function saveToken(user: {
+async function createToken(user: {
   email: string;
   role: "ADMIN" | "BUYER" | "SELLER";
 }) {
@@ -16,8 +16,8 @@ async function updateToken(user: {
   return await update({ user });
 }
 
-async function removeToken() {
+async function deleteToken() {
   return await signOut();
 }
 
-export { saveToken, updateToken, removeToken };
+export { createToken, updateToken, deleteToken };

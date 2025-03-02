@@ -10,6 +10,7 @@ import { openSans } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
 
 import "~/styles/globals.css";
+import { RootProvider } from "./_components/root-provider";
 
 export const metadata: Metadata = {
   title: "EcoBuiltConnect",
@@ -19,17 +20,19 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
   return (
     <html lang="en">
       <body className={cn("antialiased", openSans.className)}>
-        <RootHeader />
-        {children}
-        <RootFooter />
-        <Button
-          size="icon"
-          className={cn(
-            "fixed bottom-8 right-8 z-50 rounded-full size-12 [&_svg]:size-6",
-          )}
-        >
-          <MessageCircleIcon />
-        </Button>
+        <RootProvider>
+          <RootHeader />
+          {children}
+          <RootFooter />
+          <Button
+            size="icon"
+            className={cn(
+              "fixed bottom-8 right-8 z-50 rounded-full size-12 [&_svg]:size-6",
+            )}
+          >
+            <MessageCircleIcon />
+          </Button>
+        </RootProvider>
       </body>
     </html>
   );

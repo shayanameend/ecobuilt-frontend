@@ -4,14 +4,14 @@ import { signIn, signOut, update } from "~/auth";
 
 async function createToken(user: {
   email: string;
-  role: "ADMIN" | "BUYER" | "SELLER";
+  role: "ADMIN" | "USER";
 }) {
   return await signIn("credentials", user);
 }
 
 async function updateToken(user: {
   email: string;
-  role: "ADMIN" | "BUYER" | "SELLER";
+  role: "ADMIN" | "USER";
 }) {
   return await update({ user });
 }

@@ -18,13 +18,29 @@ const navRoutes = {
 };
 
 const authRoutes = {
+  signUp: {
+    label: "Sign Up",
+    url: () => "/auth/sign-up",
+  },
   signIn: {
     label: "Sign In",
     url: () => "/auth/sign-in",
   },
-  signUp: {
-    label: "Sign Up",
-    url: () => "/auth/sign-up",
+  verifyOtp: {
+    label: "Verify Otp",
+    url: () => "/auth/verify",
+  },
+  forgotPassword: {
+    label: "Forgot Password",
+    url: () => "/auth/forgot-password",
+  },
+  updatePassword: {
+    label: "Update Password",
+    url: () => "/auth/update-password",
+  },
+  error: {
+    label: "Error",
+    url: () => "/auth/error",
   },
 };
 

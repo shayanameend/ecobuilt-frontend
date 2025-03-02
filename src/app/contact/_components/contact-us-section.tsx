@@ -78,7 +78,7 @@ export function ContactUsSection() {
     >
       <div className={cn("flex-1 py-4 px-8 space-y-12")}>
         <Form {...form}>
-          <div className={cn("space-y-2")}>
+          <div className={cn("space-y-2 text-center")}>
             <h2
               className={cn(
                 "text-black/75 text-3xl font-bold",
@@ -112,12 +112,12 @@ export function ContactUsSection() {
               />
               <FormField
                 control={form.control}
-                name="email"
+                name="phone"
                 render={({ field }) => (
                   <FormItem className={cn("flex-1")}>
-                    <FormLabel>Your Email</FormLabel>
+                    <FormLabel>Your Phone</FormLabel>
                     <FormControl>
-                      <Input placeholder="john@domain.com" {...field} />
+                      <Input placeholder="123-456-7890" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -127,12 +127,12 @@ export function ContactUsSection() {
             <div className={cn("flex gap-2 items-center")}>
               <FormField
                 control={form.control}
-                name="phone"
+                name="email"
                 render={({ field }) => (
                   <FormItem className={cn("flex-1")}>
-                    <FormLabel>Your Phone</FormLabel>
+                    <FormLabel>Your Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="123-456-7890" {...field} />
+                      <Input placeholder="john@domain.com" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -181,7 +181,7 @@ export function ContactUsSection() {
           </form>
         </Form>
       </div>
-      <div className={cn("flex-1 my-4 mx-2 rounded-lg overflow-hidden")}>
+      <div className={cn("flex-[2] my-4 mx-2 rounded-lg overflow-hidden")}>
         <iframe
           title="Karachi Map"
           width="100%"

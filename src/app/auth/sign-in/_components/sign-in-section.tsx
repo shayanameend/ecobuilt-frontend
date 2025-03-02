@@ -5,6 +5,7 @@ import { default as Link } from "next/link";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
 
+import { createToken } from "~/auth/server";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -34,6 +35,9 @@ const SignInFormSchema = zod.object({
     .nonempty({
       message: "Password is required",
     }),
+  role: zod.enum(["ADMIN", "USER"], {
+    message: "Invalid Role",
+  }),
 });
 
 export function SignInSection() {
@@ -42,10 +46,13 @@ export function SignInSection() {
     defaultValues: {
       email: "",
       password: "",
+      role: "USER",
     },
   });
 
-  const onSubmit = (data: zod.infer<typeof SignInFormSchema>) => {};
+  const onSubmit = async (data: zod.infer<typeof SignInFormSchema>) => {
+    await createToken(data);
+  };
 
   return (
     <section

@@ -53,7 +53,9 @@ export function RootFooter() {
   ];
 
   return (
-    <footer className={cn("py-16 px-24 sticky top-0 z-10 bg-muted")}>
+    <footer
+      className={cn("py-16 px-24 bg-gradient-to-r from-sky-600 to-sky-500")}
+    >
       <div className={cn("max-w-screen-xl mx-auto flex justify-between")}>
         <div className={cn("flex flex-col gap-6 items-center")}>
           <Link href="/">
@@ -65,7 +67,7 @@ export function RootFooter() {
           </Link>
           <p
             className={cn(
-              "max-w-72 text-foreground/65 font-medium text-center",
+              "max-w-72 text-primary-foreground/85 font-medium text-center",
             )}
           >
             Connect with trusted vendors and contractors to reduce waste, cut
@@ -81,7 +83,10 @@ export function RootFooter() {
         </div>
         <ul className={cn("space-y-3")}>
           <h3
-            className={cn("mb-6 text-foreground text-xl font-medium", domine)}
+            className={cn(
+              "mb-6 text-primary-foreground text-xl font-medium",
+              domine,
+            )}
           >
             Our Listings
           </h3>
@@ -90,7 +95,7 @@ export function RootFooter() {
               <Link
                 href={route.url()}
                 className={cn(
-                  "text-foreground/65 hover:text-primary transition-all duration-300",
+                  "text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
                 )}
               >
                 {route.label}
@@ -100,7 +105,10 @@ export function RootFooter() {
         </ul>
         <ul className={cn("space-y-3")}>
           <h3
-            className={cn("mb-6 text-foreground text-xl font-medium", domine)}
+            className={cn(
+              "mb-6 text-primary-foreground text-xl font-medium",
+              domine,
+            )}
           >
             Quick Links
           </h3>
@@ -109,7 +117,7 @@ export function RootFooter() {
               <Link
                 href={route.url()}
                 className={cn(
-                  "text-foreground/65 hover:text-primary transition-all duration-300",
+                  "text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
                 )}
               >
                 {route.label}
@@ -118,17 +126,22 @@ export function RootFooter() {
           ))}
         </ul>
         <ul className={cn("space-y-6")}>
-          <h3 className={cn("text-foreground text-xl font-medium", domine)}>
+          <h3
+            className={cn(
+              "text-primary-foreground text-xl font-medium",
+              domine,
+            )}
+          >
             Contact Us
           </h3>
           <li>
             <Link
               href="tel:801-998-2063"
               className={cn(
-                "flex gap-4 items-center text-foreground/65 hover:text-primary transition-all duration-300",
+                "flex gap-4 items-center text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
               )}
             >
-              <PhoneIcon className={cn("size-5 text-primary")} />
+              <PhoneIcon className={cn("size-5")} />
               <span>801-998-2063</span>
             </Link>
           </li>
@@ -136,10 +149,10 @@ export function RootFooter() {
             <Link
               href="mailto:help@ecobuilt.com"
               className={cn(
-                "flex gap-4 items-center text-foreground/65 hover:text-primary transition-all duration-300",
+                "flex gap-4 items-center text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
               )}
             >
-              <MailIcon className={cn("size-5 text-primary")} />
+              <MailIcon className={cn("size-5")} />
               <span>help@ecobuilt.com</span>
             </Link>
           </li>
@@ -147,10 +160,10 @@ export function RootFooter() {
             <Link
               href=""
               className={cn(
-                "flex gap-4 items-center text-foreground/65 hover:text-primary transition-all duration-300",
+                "flex gap-4 items-center text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
               )}
             >
-              <MapPinIcon className={cn("size-6 text-primary")} />
+              <MapPinIcon className={cn("size-6")} />
               <span className={cn("max-w-48")}>
                 9418 S Feulner Road, West Jordan, Utah 84081
               </span>
@@ -162,7 +175,7 @@ export function RootFooter() {
                 <Link href="">
                   <SiFacebook
                     className={cn(
-                      "size-6 text-foreground/65 hover:text-primary transition-all duration-300",
+                      "size-6 text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
                     )}
                   />
                 </Link>
@@ -171,7 +184,7 @@ export function RootFooter() {
                 <Link href="">
                   <SiInstagram
                     className={cn(
-                      "size-6 text-foreground/65 hover:text-primary transition-all duration-300",
+                      "size-6 text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
                     )}
                   />
                 </Link>
@@ -180,7 +193,7 @@ export function RootFooter() {
                 <Link href="">
                   <SiYoutube
                     className={cn(
-                      "size-6 text-foreground/65 hover:text-primary transition-all duration-300",
+                      "size-6 text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
                     )}
                   />
                 </Link>
@@ -189,7 +202,7 @@ export function RootFooter() {
                 <Link href="">
                   <SiX
                     className={cn(
-                      "size-6 text-foreground/65 hover:text-primary transition-all duration-300",
+                      "size-6 text-primary-foreground/85 hover:text-primary-foreground transition-all duration-300",
                     )}
                   />
                 </Link>

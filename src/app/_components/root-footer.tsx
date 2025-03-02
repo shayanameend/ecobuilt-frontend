@@ -206,8 +206,9 @@ export function RootFooter() {
         )}
       >
         <p className={cn("text-center text-sm")}>
-          © 2021 Ecobuilt. All rights reserved. Privacy Policy | Terms of
-          Service
+          Copyright &copy; {new Date().getFullYear()} Ecobuilt. All rights
+          reserved. <Link href="/privacy-policy">Privacy Policy</Link> |{" "}
+          <Link href="/terms-of-service">Terms of Service</Link>
         </p>
       </div>
     </footer>

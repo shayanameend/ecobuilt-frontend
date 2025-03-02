@@ -15,13 +15,26 @@ export const {
     error: authRoutes.error.url(),
   },
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn() {
       return true;
     },
     async session({ token, session }) {
+      if (token.email && session.user) {
+        session.user.email = token.email as string;
+        session.user.role = token.role as "ADMIN" | "BUYER" | "SELLER";
+      }
+
       return session;
     },
-    async jwt({ token }) {
+    async jwt({ token, user }) {
+      if (user) {
+        token.email = user.email;
+
+        if ("role" in user) {
+          token.role = user.role;
+        }
+      }
+
       return token;
     },
   },

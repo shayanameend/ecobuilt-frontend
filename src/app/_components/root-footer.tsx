@@ -54,7 +54,7 @@ export function RootFooter() {
 
   return (
     <footer>
-      <div className={cn("py-16 px-24 sticky top-0 z-10 bg-muted")}>
+      <div className={cn("py-16 px-24 sticky top-0 z-10 bg-muted/35")}>
         <div className={cn("max-w-screen-xl mx-auto flex justify-between")}>
           <div className={cn("flex flex-col gap-6 items-center")}>
             <Link href="/">

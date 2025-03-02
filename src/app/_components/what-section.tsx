@@ -23,10 +23,10 @@ export function WhatSection() {
   return (
     <section
       className={cn(
-        "py-16 px-24 flex flex-row gap-12 items-center justify-center",
+        "py-16 px-24 flex flex-row-reverse gap-12 items-center justify-center",
       )}
     >
-      <div className={cn("flex-1 -mt-24 py-4 px-8 space-y-8")}>
+      <div className={cn("flex-1 -mt-8 py-4 px-8 space-y-8")}>
         <div className={cn("space-y-4")}>
           <Badge variant="outline">WHAT WE OFFER</Badge>
           <h2
@@ -50,51 +50,55 @@ export function WhatSection() {
       </div>
       <div className={cn("flex-1 py-4 px-8 grid grid-cols-2 gap-4")}>
         <Card>
-          <CardHeader>
+          <CardHeader className={cn("p-4")}>
             <RecycleIcon size={36} className={cn("text-primary/70")} />
           </CardHeader>
-          <CardContent className={cn("space-y-2")}>
-            <CardTitle>Sustainability First</CardTitle>
-            <CardDescription>
+          <CardContent className={cn("space-y-2 p-4 pt-0")}>
+            <CardTitle className={cn("text-lg")}>
+              Sustainability First
+            </CardTitle>
+            <CardDescription className={cn("text-sm")}>
               We help businesses make eco-conscious decisions by giving
               discarded materials a second life.
             </CardDescription>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
+          <CardHeader className={cn("p-4")}>
             <MonitorSmartphoneIcon
               size={36}
               className={cn("text-primary/70")}
             />
           </CardHeader>
-          <CardContent className={cn("space-y-2")}>
-            <CardTitle>Tech-Driven Platform</CardTitle>
-            <CardDescription>
+          <CardContent className={cn("space-y-2 p-4 pt-0")}>
+            <CardTitle className={cn("text-lg")}>
+              Tech-Driven Platform
+            </CardTitle>
+            <CardDescription className={cn("text-sm")}>
               Our intuitive marketplace features real-time inventory updates,
               secure payments, and AI-powered recommendations.
             </CardDescription>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
+          <CardHeader className={cn("p-4")}>
             <LockIcon size={36} className={cn("text-primary/70")} />
           </CardHeader>
-          <CardContent className={cn("space-y-2")}>
-            <CardTitle>Verified Suppliers</CardTitle>
-            <CardDescription>
+          <CardContent className={cn("space-y-2 p-4 pt-0")}>
+            <CardTitle className={cn("text-lg")}>Verified Suppliers</CardTitle>
+            <CardDescription className={cn("text-sm")}>
               We use blockchain technology to verify suppliers and ensure
               transparency in every deal.
             </CardDescription>
           </CardContent>
         </Card>
         <Card>
-          <CardHeader>
+          <CardHeader className={cn("p-4")}>
             <CircleDollarSignIcon size={36} className={cn("text-primary/70")} />
           </CardHeader>
-          <CardContent className={cn("space-y-2")}>
-            <CardTitle>Cost Savings </CardTitle>
-            <CardDescription>
+          <CardContent className={cn("space-y-2 p-4 pt-0")}>
+            <CardTitle className={cn("text-lg")}>Cost Savings </CardTitle>
+            <CardDescription className={cn("text-sm")}>
               Buyers access affordable materials, while suppliers monetize waste
               — creating a win-win ecosystem.
             </CardDescription>

@@ -28,6 +28,14 @@ export default auth((req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
+      const callbackUrl = nextUrl.searchParams.get("callbackUrl");
+
+      if (callbackUrl) {
+        return Response.redirect(
+          new URL(decodeURIComponent(callbackUrl), nextUrl),
+        );
+      }
+
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
 

@@ -1,8 +1,8 @@
+import JackReul from "~/assets/pictures/Jack-reul.jpeg";
 import HeroSectionBanner from "~/assets/pictures/hero-section-banner.jpg";
-import JaneDoe from "~/assets/pictures/jane-doe.jpeg";
-import JohnDoe from "~/assets/pictures/john-doe.jpeg";
-import JohnSmith from "~/assets/pictures/john-smith.jpeg";
+import JessyIris from "~/assets/pictures/jessy-iris.jpeg";
 import Logo from "~/assets/pictures/logo.png";
+import MarkKeller from "~/assets/pictures/mark-keller.jpeg";
 import TeamSectionBanner from "~/assets/pictures/team-section-banner.jpg";
 import WhySectionBanner from "~/assets/pictures/why-section-banner.jpg";
 
@@ -23,17 +23,17 @@ const assets = {
     asset: TeamSectionBanner,
     alt: "Team Section Banner",
   },
-  johnDoe: {
-    asset: JohnDoe,
-    alt: "John Doe",
+  jackReul: {
+    asset: JackReul,
+    alt: "Jack Reul",
   },
-  janeDoe: {
-    asset: JaneDoe,
-    alt: "Jane Doe",
+  jessyIris: {
+    asset: JessyIris,
+    alt: "Jessy Iris",
   },
-  johnSmith: {
-    asset: JohnSmith,
-    alt: "John Smith",
+  markkeller: {
+    asset: MarkKeller,
+    alt: "Mark Keller",
   },
 };
 

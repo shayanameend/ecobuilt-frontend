@@ -88,8 +88,8 @@ export function ContactUsSection() {
               Contact Us
             </h2>
             <p className={"ml-1 text-muted-foreground text-base font-medium"}>
-              Reach out to us for any inquiries or support. We're here to help
-              you with your needs and ensure a sustainable future.
+              Interested in partnering with us or learning more? Contact
+              EcoBuilt Connect today!
             </p>
           </div>
           <form
@@ -188,7 +188,7 @@ export function ContactUsSection() {
           height="100%"
           loading="eager"
           allowFullScreen
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d28957.771190613975!2d66.98163558916015!3d24.86073427376307!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3eb33ed9687e92ff%3A0x28e36b26b2a65ba9!2sKarachi%2C%20Pakistan!5e0!3m2!1sen!2s!4v1709290441230!5m2!1sen!2s"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d52980.82232536073!2d18.498110158556987!3d-33.90764174186438!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc5bada98e54b5%3A0x1012b82d9ba600e3!2sGoodwood%2C%20Cape%20Town%2C%207460!5e0!3m2!1sen!2sza!4v1739165123371!5m2!1sen!2sza"
         />
       </div>
     </section>

@@ -130,7 +130,7 @@ export function RootFooter() {
                 )}
               >
                 <PhoneIcon className={cn("size-5 text-primary")} />
-                <span>801-998-2063</span>
+                <span>+27 64 332 4533</span>
               </Link>
             </li>
             <li>
@@ -152,15 +152,13 @@ export function RootFooter() {
                 )}
               >
                 <MapPinIcon className={cn("size-6 text-primary")} />
-                <span className={cn("max-w-48")}>
-                  9418 S Feulner Road, West Jordan, Utah 84081
-                </span>
+                <span className={cn("max-w-48")}>Goodwood, Cape Town</span>
               </Link>
             </li>
             <li>
               <ul className={cn("flex gap-4 ml-1 mt-10")}>
                 <li>
-                  <Link href="">
+                  <Link href="https://web.facebook.com/profile.php?id=61572223574195&rdid=vKHZO4gam7qHEuBX&share_url=https%3A%2F%2Fweb.facebook.com%2Fshare%2F18TaJduJCG%2F%3F_rdc%3D1%26_rdr">
                     <SiFacebook
                       className={cn(
                         "size-6 text-foreground/65 hover:text-primary transition-all duration-300",
@@ -169,7 +167,7 @@ export function RootFooter() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="">
+                  <Link href="https://www.instagram.com/ecobuiltconnect?igsh=MXQwa2V6aGtqdG5rZA==">
                     <SiInstagram
                       className={cn(
                         "size-6 text-foreground/65 hover:text-primary transition-all duration-300",

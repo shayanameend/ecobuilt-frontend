@@ -11,7 +11,11 @@ export default function AuthLayout({ children }: Readonly<PropsWithChildren>) {
         )}
       >
         {children}
-        <div className={cn("flex-[2] my-4 mx-2 rounded-lg overflow-hidden")}>
+        <div
+          className={cn(
+            "hidden md:block flex-1 lg:flex-[2] my-4 mx-2 rounded-lg overflow-hidden",
+          )}
+        >
           <iframe
             title="Karachi Map"
             width="100%"

@@ -34,12 +34,12 @@ export default function MarketplacePage() {
   const currentVendor = searchParams.get("vendor") || "";
   const currentSort = searchParams.get("sort") || "relevance";
   const currentSearch = searchParams.get("search") || "";
-  const currentMinPrice = searchParams.get("minPrice") || "";
-  const currentMaxPrice = searchParams.get("maxPrice") || "";
+  const currentmin = searchParams.get("min") || "";
+  const currentmax = searchParams.get("max") || "";
 
   const [searchInput, setSearchInput] = useState(currentSearch);
-  const [minPrice, setMinPrice] = useState(currentMinPrice);
-  const [maxPrice, setMaxPrice] = useState(currentMaxPrice);
+  const [min, setMin] = useState(currentmin);
+  const [max, setMax] = useState(currentmax);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [showAllVendors, setShowAllVendors] = useState(false);
 
@@ -78,31 +78,31 @@ export default function MarketplacePage() {
 
   const applyPriceFilter = () => {
     const params = new URLSearchParams(searchParams.toString());
-    if (minPrice) params.set("minPrice", minPrice);
-    else params.delete("minPrice");
+    if (min) params.set("min", min);
+    else params.delete("min");
 
-    if (maxPrice) params.set("maxPrice", maxPrice);
-    else params.delete("maxPrice");
+    if (max) params.set("max", max);
+    else params.delete("max");
 
     params.delete("page");
     router.push(`${pathname}?${params.toString()}`);
   };
 
   const resetPriceFilter = () => {
-    setMinPrice("");
-    setMaxPrice("");
+    setMin("");
+    setMax("");
     const params = new URLSearchParams(searchParams.toString());
-    params.delete("minPrice");
-    params.delete("maxPrice");
+    params.delete("min");
+    params.delete("max");
     params.delete("page");
     router.push(`${pathname}?${params.toString()}`);
   };
 
   const filteredProducts = products.filter((product) => {
-    if (currentMinPrice && product.price < Number.parseFloat(currentMinPrice)) {
+    if (currentmin && product.price < Number.parseFloat(currentmin)) {
       return false;
     }
-    if (currentMaxPrice && product.price > Number.parseFloat(currentMaxPrice)) {
+    if (currentmax && product.price > Number.parseFloat(currentmax)) {
       return false;
     }
     return true;
@@ -111,21 +111,17 @@ export default function MarketplacePage() {
   return (
     <>
       <main className={cn("pt-6 pb-12 px-24 min-h-[calc(100svh_-_8rem)] flex")}>
-        <aside className="py-2 w-64 pr-8 flex flex-col gap-6 border-r border-muted">
+        <aside className="py-2 w-64 pr-8 flex flex-col gap-6">
           <nav className={cn("space-y-6")}>
             <div>
-              <h3
-                className={cn("text-base font-semibold mb-3", domine.className)}
-              >
-                Categories
-              </h3>
+              <h3 className={cn("text-base font-semibold mb-3")}>Categories</h3>
               <ul className="space-y-1.5 text-sm">
                 {limitedCategories.map((category) => (
                   <li key={category.id}>
                     <Link
                       href={`${pathname}?${createQueryString("category", currentCategory === category.id ? "" : category.id)}`}
                       className={cn(
-                        "text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-2",
+                        "text-muted-foreground hover:text-foreground transition-colors duration-200",
                         currentCategory === category.id &&
                           "font-bold text-foreground",
                       )}
@@ -156,18 +152,14 @@ export default function MarketplacePage() {
               )}
             </div>
             <div>
-              <h3
-                className={cn("text-base font-semibold mb-3", domine.className)}
-              >
-                Vendors
-              </h3>
+              <h3 className={cn("text-base font-semibold mb-3")}>Vendors</h3>
               <ul className="space-y-1.5 text-sm">
                 {limitedVendors.map((vendor) => (
                   <li key={vendor.id}>
                     <Link
                       href={`${pathname}?${createQueryString("vendor", currentVendor === vendor.id ? "" : vendor.id)}`}
                       className={cn(
-                        "text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-2",
+                        "text-muted-foreground hover:text-foreground transition-colors duration-200",
                         currentVendor === vendor.id &&
                           "font-bold text-foreground",
                       )}
@@ -198,19 +190,15 @@ export default function MarketplacePage() {
               )}
             </div>
             <div>
-              <h3
-                className={cn("text-base font-semibold mb-3", domine.className)}
-              >
-                Price
-              </h3>
+              <h3 className={cn("text-base font-semibold mb-3")}>Price</h3>
               <div className="space-y-3 -ml-2">
                 <div className="flex items-center gap-2">
                   <Input
                     type="number"
                     placeholder="Min"
                     className="h-8 text-sm"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
+                    value={min}
+                    onChange={(e) => setMin(e.target.value)}
                     min="0"
                   />
                   <span className="text-muted-foreground">-</span>
@@ -218,9 +206,9 @@ export default function MarketplacePage() {
                     type="number"
                     placeholder="Max"
                     className="h-8 text-sm"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                    min={minPrice || "0"}
+                    value={max}
+                    onChange={(e) => setMax(e.target.value)}
+                    min={min || "0"}
                   />
                 </div>
                 <div className="flex gap-2">
@@ -278,11 +266,11 @@ export default function MarketplacePage() {
             >
               <p>
                 Showing {filteredProducts.length} results
-                {(currentMinPrice || currentMaxPrice) && (
+                {(currentmin || currentmax) && (
                   <span className="ml-1">
-                    {currentMinPrice && `from $${currentMinPrice}`}
-                    {currentMinPrice && currentMaxPrice && " "}
-                    {currentMaxPrice && `to $${currentMaxPrice}`}
+                    {currentmin && `from $${currentmin}`}
+                    {currentmin && currentmax && " "}
+                    {currentmax && `to $${currentmax}`}
                   </span>
                 )}
               </p>

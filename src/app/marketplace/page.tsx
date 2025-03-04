@@ -1,17 +1,20 @@
-import { SearchIcon } from "lucide-react";
+"use client";
 
-import { Product, products } from "~/app/marketplace/_components/product";
+import type { FormEvent } from "react";
+
+import { SearchIcon } from "lucide-react";
+import { default as Link } from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useState } from "react";
+
+import {
+  Product,
+  categories,
+  products,
+  vendors,
+} from "~/app/marketplace/_components/product";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "~/components/ui/pagination";
 import {
   Select,
   SelectContent,
@@ -23,36 +26,120 @@ import { domine } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
 
 export default function MarketplacePage() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentCategory = searchParams.get("category") || "";
+  const currentVendor = searchParams.get("vendor") || "";
+  const currentSort = searchParams.get("sort") || "relevance";
+  const currentPage = Number.parseInt(searchParams.get("page") || "1");
+  const currentSearch = searchParams.get("search") || "";
+
+  const [searchInput, setSearchInput] = useState(currentSearch);
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const params = new URLSearchParams(searchParams.toString());
+      if (value) {
+        params.set(name, value);
+      } else {
+        params.delete(name);
+      }
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  const handlePageChange = (page: number) => {
+    router.push(`${pathname}?${createQueryString("page", page.toString())}`, {
+      scroll: false,
+    });
+  };
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("search", searchInput);
+    params.delete("page");
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleSortChange = (value: string) => {
+    router.push(`${pathname}?${createQueryString("sort", value)}`);
+  };
+
   return (
     <>
       <main className={cn("pt-6 pb-12 px-24 min-h-[calc(100svh_-_8rem)] flex")}>
-        <aside className={cn("w-64")}>
-          <nav>
-            <ul />
+        <aside className="py-2 w-64 pr-8 flex flex-col gap-6 border-r border-muted">
+          {/* <h2 className={cn("text-xl font")}>Filters</h2> */}
+          <nav className={cn("space-y-6", domine.className)}>
+            <div>
+              <h3 className={cn("text-base font-semibold mb-3")}>Categories</h3>
+              <ul className="space-y-1.5">
+                {categories.map((category) => (
+                  <li key={category.id}>
+                    <Link
+                      href={`${pathname}?${createQueryString("category", currentCategory === category.id ? "" : category.id)}`}
+                      className={cn(
+                        "text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-2",
+                        currentCategory === category.id &&
+                          "font-bold text-foreground",
+                      )}
+                    >
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className={cn("text-base font-semibold mb-3")}>Vendors</h3>
+              <ul className="space-y-1.5">
+                {vendors.map((vendor) => (
+                  <li key={vendor.id}>
+                    <Link
+                      href={`${pathname}?${createQueryString("vendor", currentVendor === vendor.id ? "" : vendor.id)}`}
+                      className={cn(
+                        "text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-2",
+                        currentVendor === vendor.id &&
+                          "font-bold text-foreground",
+                      )}
+                    >
+                      {vendor.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </nav>
         </aside>
-        <section className={cn("flex-1 flex flex-col gap-16")}>
-          <div className={cn("flex justify-between items-center gap-12")}>
+        <section className={cn("flex-1 flex flex-col gap-12")}>
+          <div className={cn("flex justify-between items-start gap-12")}>
             <div className={cn("flex-[2]")}>
               <h2 className={cn("text-4xl font-bold", domine.className)}>
                 Building Supplies
               </h2>
             </div>
-            <div
+            <form
+              onSubmit={handleSearch}
               className={cn(
                 "flex-1 flex items-center gap-2 border border-foreground/30 rounded-lg",
               )}
             >
               <Input
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="What are you looking for?"
                 className={cn(
                   "border-none focus-visible:ring-0 focus-visible:ring-offset-0",
                 )}
               />
-              <Button size="icon">
+              <Button type="submit" size="icon">
                 <SearchIcon size={24} />
               </Button>
-            </div>
+            </form>
           </div>
           <div className={cn("flex-1 space-y-4")}>
             <div
@@ -60,8 +147,8 @@ export default function MarketplacePage() {
                 "flex justify-between items-center gap-4 text-foreground/65 text-sm font-medium",
               )}
             >
-              <p>Showing 1-24 of 26620 results</p>
-              <Select defaultValue="relevance">
+              <p>Showing results</p>
+              <Select value={currentSort} onValueChange={handleSortChange}>
                 <SelectTrigger
                   className={cn(
                     "w-32 border-none focus:ring-0 focus:ring-offset-0",
@@ -87,30 +174,6 @@ export default function MarketplacePage() {
               ))}
             </div>
           </div>
-          <Pagination className={cn("")}>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#" isActive>
-                  2
-                </PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">3</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
         </section>
       </main>
     </>

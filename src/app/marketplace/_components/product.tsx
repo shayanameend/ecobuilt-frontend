@@ -290,6 +290,92 @@ export const products = [
   },
 ];
 
+export const categories = [
+  {
+    id: "1",
+    name: "Category 1",
+  },
+  {
+    id: "2",
+    name: "Category 2",
+  },
+  {
+    id: "3",
+    name: "Category 3",
+  },
+  {
+    id: "4",
+    name: "Category 4",
+  },
+  {
+    id: "5",
+    name: "Category 5",
+  },
+  {
+    id: "6",
+    name: "Category 6",
+  },
+  {
+    id: "7",
+    name: "Category 7",
+  },
+  {
+    id: "8",
+    name: "Category 8",
+  },
+  {
+    id: "9",
+    name: "Category 9",
+  },
+  {
+    id: "10",
+    name: "Category 10",
+  },
+];
+
+export const vendors = [
+  {
+    id: "1",
+    name: "Vendor 1",
+  },
+  {
+    id: "2",
+    name: "Vendor 2",
+  },
+  {
+    id: "3",
+    name: "Vendor 3",
+  },
+  {
+    id: "4",
+    name: "Vendor 4",
+  },
+  {
+    id: "5",
+    name: "Vendor 5",
+  },
+  {
+    id: "6",
+    name: "Vendor 6",
+  },
+  {
+    id: "7",
+    name: "Vendor 7",
+  },
+  {
+    id: "8",
+    name: "Vendor 8",
+  },
+  {
+    id: "9",
+    name: "Vendor 9",
+  },
+  {
+    id: "10",
+    name: "Vendor 10",
+  },
+];
+
 export function Product({ product }: Readonly<ProductProps>) {
   return (
     <Card>

@@ -28,7 +28,7 @@ const authRoutes = {
   },
   verifyOtp: {
     label: "Verify Otp",
-    url: () => "/auth/verify",
+    url: () => "/auth/verify-otp",
   },
   forgotPassword: {
     label: "Forgot Password",

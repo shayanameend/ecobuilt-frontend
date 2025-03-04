@@ -2,7 +2,7 @@
 
 import type { FormEvent } from "react";
 
-import { SearchIcon } from "lucide-react";
+import { ChevronDown, ChevronUp, SearchIcon } from "lucide-react";
 import { default as Link } from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -33,10 +33,19 @@ export default function MarketplacePage() {
   const currentCategory = searchParams.get("category") || "";
   const currentVendor = searchParams.get("vendor") || "";
   const currentSort = searchParams.get("sort") || "relevance";
-  const currentPage = Number.parseInt(searchParams.get("page") || "1");
   const currentSearch = searchParams.get("search") || "";
 
   const [searchInput, setSearchInput] = useState(currentSearch);
+  const [showAllCategories, setShowAllCategories] = useState(false);
+  const [showAllVendors, setShowAllVendors] = useState(false);
+
+  const toggleCategories = () => setShowAllCategories(!showAllCategories);
+  const toggleVendors = () => setShowAllVendors(!showAllVendors);
+
+  const limitedCategories = showAllCategories
+    ? categories
+    : categories.slice(0, 5);
+  const limitedVendors = showAllVendors ? vendors : vendors.slice(0, 5);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -50,12 +59,6 @@ export default function MarketplacePage() {
     },
     [searchParams],
   );
-
-  const handlePageChange = (page: number) => {
-    router.push(`${pathname}?${createQueryString("page", page.toString())}`, {
-      scroll: false,
-    });
-  };
 
   const handleSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -73,12 +76,15 @@ export default function MarketplacePage() {
     <>
       <main className={cn("pt-6 pb-12 px-24 min-h-[calc(100svh_-_8rem)] flex")}>
         <aside className="py-2 w-64 pr-8 flex flex-col gap-6 border-r border-muted">
-          {/* <h2 className={cn("text-xl font")}>Filters</h2> */}
-          <nav className={cn("space-y-6", domine.className)}>
+          <nav className={cn("space-y-6")}>
             <div>
-              <h3 className={cn("text-base font-semibold mb-3")}>Categories</h3>
-              <ul className="space-y-1.5">
-                {categories.map((category) => (
+              <h3
+                className={cn("text-base font-semibold mb-3", domine.className)}
+              >
+                Categories
+              </h3>
+              <ul className="space-y-1.5 text-sm">
+                {limitedCategories.map((category) => (
                   <li key={category.id}>
                     <Link
                       href={`${pathname}?${createQueryString("category", currentCategory === category.id ? "" : category.id)}`}
@@ -93,11 +99,34 @@ export default function MarketplacePage() {
                   </li>
                 ))}
               </ul>
+              {categories.length > 5 && (
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-1 text-xs mt-2 -ml-1 p-0 px-1 h-auto text-muted-foreground hover:text-foreground"
+                  onClick={toggleCategories}
+                >
+                  {showAllCategories ? (
+                    <>
+                      <span>Show Less</span>
+                      <ChevronUp className="h-4 w-4 mt-0.5" />
+                    </>
+                  ) : (
+                    <>
+                      <span>Show More</span>
+                      <ChevronDown className="h-4 w-4 mt-0.5" />
+                    </>
+                  )}
+                </Button>
+              )}
             </div>
             <div>
-              <h3 className={cn("text-base font-semibold mb-3")}>Vendors</h3>
-              <ul className="space-y-1.5">
-                {vendors.map((vendor) => (
+              <h3
+                className={cn("text-base font-semibold mb-3", domine.className)}
+              >
+                Vendors
+              </h3>
+              <ul className="space-y-1.5 text-sm">
+                {limitedVendors.map((vendor) => (
                   <li key={vendor.id}>
                     <Link
                       href={`${pathname}?${createQueryString("vendor", currentVendor === vendor.id ? "" : vendor.id)}`}
@@ -112,6 +141,25 @@ export default function MarketplacePage() {
                   </li>
                 ))}
               </ul>
+              {vendors.length > 5 && (
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-1 text-xs mt-2 -ml-1 p-0 px-1 h-auto text-muted-foreground hover:text-foreground"
+                  onClick={toggleVendors}
+                >
+                  {showAllVendors ? (
+                    <>
+                      <span>Show Less</span>
+                      <ChevronUp className="h-4 w-4 mt-0.5" />
+                    </>
+                  ) : (
+                    <>
+                      <span>Show More</span>
+                      <ChevronDown className="h-4 w-4 mt-0.5" />
+                    </>
+                  )}
+                </Button>
+              )}
             </div>
           </nav>
         </aside>

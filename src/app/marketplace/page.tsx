@@ -34,8 +34,12 @@ export default function MarketplacePage() {
   const currentVendor = searchParams.get("vendor") || "";
   const currentSort = searchParams.get("sort") || "relevance";
   const currentSearch = searchParams.get("search") || "";
+  const currentMinPrice = searchParams.get("minPrice") || "";
+  const currentMaxPrice = searchParams.get("maxPrice") || "";
 
   const [searchInput, setSearchInput] = useState(currentSearch);
+  const [minPrice, setMinPrice] = useState(currentMinPrice);
+  const [maxPrice, setMaxPrice] = useState(currentMaxPrice);
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [showAllVendors, setShowAllVendors] = useState(false);
 
@@ -71,6 +75,38 @@ export default function MarketplacePage() {
   const handleSortChange = (value: string) => {
     router.push(`${pathname}?${createQueryString("sort", value)}`);
   };
+
+  const applyPriceFilter = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (minPrice) params.set("minPrice", minPrice);
+    else params.delete("minPrice");
+
+    if (maxPrice) params.set("maxPrice", maxPrice);
+    else params.delete("maxPrice");
+
+    params.delete("page");
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const resetPriceFilter = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("minPrice");
+    params.delete("maxPrice");
+    params.delete("page");
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const filteredProducts = products.filter((product) => {
+    if (currentMinPrice && product.price < Number.parseFloat(currentMinPrice)) {
+      return false;
+    }
+    if (currentMaxPrice && product.price > Number.parseFloat(currentMaxPrice)) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <>
@@ -161,6 +197,51 @@ export default function MarketplacePage() {
                 </Button>
               )}
             </div>
+            <div>
+              <h3
+                className={cn("text-base font-semibold mb-3", domine.className)}
+              >
+                Price
+              </h3>
+              <div className="space-y-3 -ml-2">
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Min"
+                    className="h-8 text-sm"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                    min="0"
+                  />
+                  <span className="text-muted-foreground">-</span>
+                  <Input
+                    type="number"
+                    placeholder="Max"
+                    className="h-8 text-sm"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                    min={minPrice || "0"}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={resetPriceFilter}
+                    size="sm"
+                    variant="outline"
+                    className="text-xs"
+                  >
+                    Reset
+                  </Button>
+                  <Button
+                    onClick={applyPriceFilter}
+                    size="sm"
+                    className="text-xs flex-1"
+                  >
+                    Apply
+                  </Button>
+                </div>
+              </div>
+            </div>
           </nav>
         </aside>
         <section className={cn("flex-1 flex flex-col gap-12")}>
@@ -195,7 +276,16 @@ export default function MarketplacePage() {
                 "flex justify-between items-center gap-4 text-foreground/65 text-sm font-medium",
               )}
             >
-              <p>Showing results</p>
+              <p>
+                Showing {filteredProducts.length} results
+                {(currentMinPrice || currentMaxPrice) && (
+                  <span className="ml-1">
+                    {currentMinPrice && `from $${currentMinPrice}`}
+                    {currentMinPrice && currentMaxPrice && " "}
+                    {currentMaxPrice && `to $${currentMaxPrice}`}
+                  </span>
+                )}
+              </p>
               <Select value={currentSort} onValueChange={handleSortChange}>
                 <SelectTrigger
                   className={cn(
@@ -217,7 +307,7 @@ export default function MarketplacePage() {
                 "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8",
               )}
             >
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <Product key={product.id} product={product} />
               ))}
             </div>

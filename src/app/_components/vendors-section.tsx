@@ -45,15 +45,15 @@ export function VendorsSection() {
         <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
           <CardHeader className={cn("p-2")}>
             <img
-              src={assets.johnDoe.asset.src}
-              alt={assets.johnDoe.alt}
+              src={assets.jackReul.asset.src}
+              alt={assets.jackReul.alt}
               className={cn("size-16 rounded-full")}
             />
           </CardHeader>
           <CardContent className={cn("space-y-2 p-2")}>
             <CardTitle>
               <h3 className={cn("text-base font-normal")}>
-                {assets.johnDoe.alt}
+                {assets.jackReul.alt}
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64 text-xs")}>
@@ -64,15 +64,15 @@ export function VendorsSection() {
         <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
           <CardHeader className={cn("p-2")}>
             <img
-              src={assets.janeDoe.asset.src}
-              alt={assets.janeDoe.alt}
+              src={assets.jessyIris.asset.src}
+              alt={assets.jessyIris.alt}
               className={cn("size-16 rounded-full")}
             />
           </CardHeader>
           <CardContent className={cn("space-y-2 p-2")}>
             <CardTitle>
               <h3 className={cn("text-base font-normal")}>
-                {assets.janeDoe.alt}
+                {assets.jessyIris.alt}
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64 text-xs")}>
@@ -83,15 +83,15 @@ export function VendorsSection() {
         <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
           <CardHeader className={cn("p-2")}>
             <img
-              src={assets.johnSmith.asset.src}
-              alt={assets.johnSmith.alt}
+              src={assets.markkeller.asset.src}
+              alt={assets.markkeller.alt}
               className={cn("size-16 rounded-full")}
             />
           </CardHeader>
           <CardContent className={cn("space-y-2 p-2")}>
             <CardTitle>
               <h3 className={cn("text-base font-normal")}>
-                {assets.johnSmith.alt}
+                {assets.markkeller.alt}
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64 text-xs")}>
@@ -102,15 +102,15 @@ export function VendorsSection() {
         <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
           <CardHeader className={cn("p-2")}>
             <img
-              src={assets.johnDoe.asset.src}
-              alt={assets.johnDoe.alt}
+              src={assets.jackReul.asset.src}
+              alt={assets.jackReul.alt}
               className={cn("size-16 rounded-full")}
             />
           </CardHeader>
           <CardContent className={cn("space-y-2 p-2")}>
             <CardTitle>
               <h3 className={cn("text-base font-normal")}>
-                {assets.johnDoe.alt}
+                {assets.jackReul.alt}
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64 text-xs")}>
@@ -121,15 +121,15 @@ export function VendorsSection() {
         <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
           <CardHeader className={cn("p-2")}>
             <img
-              src={assets.janeDoe.asset.src}
-              alt={assets.janeDoe.alt}
+              src={assets.jessyIris.asset.src}
+              alt={assets.jessyIris.alt}
               className={cn("size-16 rounded-full")}
             />
           </CardHeader>
           <CardContent className={cn("space-y-2 p-2")}>
             <CardTitle>
               <h3 className={cn("text-base font-normal")}>
-                {assets.janeDoe.alt}
+                {assets.jessyIris.alt}
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64 text-xs")}>

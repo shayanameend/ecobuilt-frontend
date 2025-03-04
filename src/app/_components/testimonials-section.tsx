@@ -32,9 +32,7 @@ export function TestimonialsSection() {
             "max-w-screen-lg mx-auto text-muted-foreground text-lg font-medium"
           }
         >
-          Our clients love the convenience and savings we provide. Read their
-          testimonials to see how we've helped them streamline their
-          construction material purchases.
+       See what builders, architects, and sustainability champions are saying about EcoBuilt Connect!
         </p>
       </div>
       <div
@@ -45,60 +43,57 @@ export function TestimonialsSection() {
         <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
           <CardHeader className={cn("p-2")}>
             <img
-              src={assets.johnDoe.asset.src}
-              alt={assets.johnDoe.alt}
+              src={assets.jackReul.asset.src}
+              alt={assets.jackReul.alt}
               className={cn("size-24 rounded-full")}
             />
           </CardHeader>
           <CardContent className={cn("space-y-2 p-2")}>
             <CardTitle>
               <h3 className={cn("text-xl font-semibold")}>
-                {assets.johnDoe.alt}
+                {assets.jackReul.alt}
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64")}>
-              "EcoBuilt has transformed the way we source materials. The
-              platform is user-friendly and the savings are incredible!"
+            "Finally, a platform that makes finding quality recycled construction materials easy and reliable."
             </CardDescription>
           </CardContent>
         </Card>
         <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
           <CardHeader className={cn("p-2")}>
             <img
-              src={assets.janeDoe.asset.src}
-              alt={assets.janeDoe.alt}
+              src={assets.jessyIris.asset.src}
+              alt={assets.jessyIris.alt}
               className={cn("size-24 rounded-full")}
             />
           </CardHeader>
           <CardContent className={cn("space-y-2 p-2")}>
             <CardTitle>
               <h3 className={cn("text-xl font-semibold")}>
-                {assets.janeDoe.alt}
+                {assets.jessyIris.alt}
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64")}>
-              "EcoBuilt has transformed the way we source materials. The
-              platform is user-friendly and the savings are incredible!"
+            "EcoBuiltConnect helped us cut material costs by 20% while staying eco-friendly — a game changer!"
             </CardDescription>
           </CardContent>
         </Card>
         <Card className={cn("space-x-4 shadow-sm flex flex-row items-center")}>
           <CardHeader className={cn("p-2")}>
             <img
-              src={assets.johnSmith.asset.src}
-              alt={assets.johnSmith.alt}
+              src={assets.markkeller.asset.src}
+              alt={assets.markkeller.alt}
               className={cn("size-24 rounded-full")}
             />
           </CardHeader>
           <CardContent className={cn("space-y-2 p-2")}>
             <CardTitle>
               <h3 className={cn("text-xl font-semibold")}>
-                {assets.johnSmith.alt}
+                {assets.markkeller.alt}
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64")}>
-              "EcoBuilt has transformed the way we source materials. The
-              platform is user-friendly and the savings are incredible!"
+            "EcoBuiltConnect bridges the gap between sustainability and affordability!"
             </CardDescription>
           </CardContent>
         </Card>

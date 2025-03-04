@@ -88,7 +88,8 @@ export function ContactUsSection() {
               Contact Us
             </h2>
             <p className={"ml-1 text-muted-foreground text-base font-medium"}>
-            Interested in partnering with us or learning more? Contact EcoBuilt Connect today!
+              Interested in partnering with us or learning more? Contact
+              EcoBuilt Connect today!
             </p>
           </div>
           <form

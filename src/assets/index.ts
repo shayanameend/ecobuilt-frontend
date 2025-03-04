@@ -1,8 +1,8 @@
-import HeroSectionBanner from "~/assets/pictures/hero-section-banner.jpg";
 import JackReul from "~/assets/pictures/Jack-reul.jpeg";
+import HeroSectionBanner from "~/assets/pictures/hero-section-banner.jpg";
 import JessyIris from "~/assets/pictures/jessy-iris.jpeg";
-import MarkKeller from "~/assets/pictures/mark-keller.jpeg";
 import Logo from "~/assets/pictures/logo.png";
+import MarkKeller from "~/assets/pictures/mark-keller.jpeg";
 import TeamSectionBanner from "~/assets/pictures/team-section-banner.jpg";
 import WhySectionBanner from "~/assets/pictures/why-section-banner.jpg";
 

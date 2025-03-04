@@ -32,7 +32,8 @@ export function TestimonialsSection() {
             "max-w-screen-lg mx-auto text-muted-foreground text-lg font-medium"
           }
         >
-       See what builders, architects, and sustainability champions are saying about EcoBuilt Connect!
+          See what builders, architects, and sustainability champions are saying
+          about EcoBuilt Connect!
         </p>
       </div>
       <div
@@ -55,7 +56,8 @@ export function TestimonialsSection() {
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64")}>
-            "Finally, a platform that makes finding quality recycled construction materials easy and reliable."
+              "Finally, a platform that makes finding quality recycled
+              construction materials easy and reliable."
             </CardDescription>
           </CardContent>
         </Card>
@@ -74,7 +76,8 @@ export function TestimonialsSection() {
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64")}>
-            "EcoBuiltConnect helped us cut material costs by 20% while staying eco-friendly — a game changer!"
+              "EcoBuiltConnect helped us cut material costs by 20% while staying
+              eco-friendly — a game changer!"
             </CardDescription>
           </CardContent>
         </Card>
@@ -93,7 +96,8 @@ export function TestimonialsSection() {
               </h3>
             </CardTitle>
             <CardDescription className={cn("max-w-64")}>
-            "EcoBuiltConnect bridges the gap between sustainability and affordability!"
+              "EcoBuiltConnect bridges the gap between sustainability and
+              affordability!"
             </CardDescription>
           </CardContent>
         </Card>

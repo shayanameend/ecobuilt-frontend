@@ -3,12 +3,12 @@
 import type { ChangeEvent } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Camera } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
-import { Camera } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import {
   Form,

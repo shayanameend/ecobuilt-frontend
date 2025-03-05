@@ -96,7 +96,7 @@ export function ContactUsSection() {
             onSubmit={form.handleSubmit(onSubmit)}
             className={cn("space-y-6")}
           >
-            <div className={cn("flex gap-2 items-center")}>
+            <div className={cn("flex gap-2 items-start")}>
               <FormField
                 control={form.control}
                 name="name"
@@ -124,7 +124,7 @@ export function ContactUsSection() {
                 )}
               />
             </div>
-            <div className={cn("flex gap-2 items-center")}>
+            <div className={cn("flex gap-2 items-start")}>
               <FormField
                 control={form.control}
                 name="email"
@@ -139,7 +139,7 @@ export function ContactUsSection() {
                 )}
               />
             </div>
-            <div className={cn("flex gap-2 items-center")}>
+            <div className={cn("flex gap-2 items-start")}>
               <FormField
                 control={form.control}
                 name="subject"
@@ -154,7 +154,7 @@ export function ContactUsSection() {
                 )}
               />
             </div>
-            <div className={cn("flex gap-2 items-center")}>
+            <div className={cn("flex gap-2 items-start")}>
               <FormField
                 control={form.control}
                 name="message"

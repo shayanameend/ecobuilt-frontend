@@ -35,9 +35,6 @@ const SignInFormSchema = zod.object({
     .nonempty({
       message: "Password is required",
     }),
-  role: zod.enum(["ADMIN", "USER"], {
-    message: "Invalid Role",
-  }),
 });
 
 export function SignInSection() {
@@ -46,7 +43,6 @@ export function SignInSection() {
     defaultValues: {
       email: "",
       password: "",
-      role: "USER",
     },
   });
 

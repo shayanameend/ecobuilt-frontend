@@ -25,54 +25,116 @@ import { Textarea } from "~/components/ui/textarea";
 import { domine } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
 
-const CreateProfileFormSchema = zod.object({
-  fullName: zod
-    .string({
-      message: "Full Name is required",
-    })
-    .min(3, {
-      message: "Full Name should be at least 3 characters",
+const supportedRoles: [string, ...string[]] = ["ADMIN", "USER", "VENDOR"];
+const supportedCities: [string, ...string[]] = [
+  "Cape Town",
+  "Durban",
+  "Johannesburg",
+  "Pretoria",
+  "Port Elizabeth",
+];
+
+const CreateProfileFormSchema = zod
+  .object({
+    name: zod
+      .string({
+        message: "Name is required",
+      })
+      .min(3, {
+        message: "Name should be at least 3 characters",
+      }),
+    description: zod.string().optional(),
+    role: zod.enum(supportedRoles, {
+      message: "Invalid Role",
     }),
-  role: zod.enum(["ADMIN", "USER", "VENDOR"], {
-    message: "Role can be either ADMIN, USER or VENDOR",
-  }),
-  phone: zod
-    .string({
-      message: "Phone is required",
-    })
-    .min(10, {
-      message: "Phone should be at least 10 characters",
-    }),
-  postalCode: zod
-    .string({
-      message: "Postal Code is required",
-    })
-    .min(6, {
-      message: "Postal Code should be at least 6 characters",
-    }),
-  city: zod
-    .string({
-      message: "City is required",
-    })
-    .min(3, {
-      message: "City should be at least 3 characters",
-    }),
-  shippingDestination: zod
-    .string({
-      message: "Shipping Destination is required",
-    })
-    .min(10, {
-      message: "Shipping Destination should be at least 10 characters",
-    }),
-});
+    phone: zod
+      .string({
+        message: "Phone is required",
+      })
+      .min(10, {
+        message: "Phone should be at least 10 characters",
+      }),
+    postalCode: zod.string().optional(),
+    city: zod.string().optional(),
+    deliveryAddress: zod.string().optional(),
+    pickupAddress: zod.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.role === "USER") {
+      if (!data.postalCode || data.postalCode.length < 6) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Postal Code should be at least 6 characters",
+          path: ["postalCode"],
+        });
+      }
+
+      if (!data.city || !supportedCities.includes(data.city)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Please select a valid city",
+          path: ["city"],
+        });
+      }
+
+      if (!data.deliveryAddress || data.deliveryAddress.length < 10) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Delivery Address should be at least 10 characters",
+          path: ["deliveryAddress"],
+        });
+      }
+    }
+
+    if (data.role === "VENDOR") {
+      if (!data.description || data.description.length < 10) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Description should be at least 10 characters",
+          path: ["description"],
+        });
+      }
+
+      if (!data.postalCode || data.postalCode.length < 6) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Postal Code should be at least 6 characters",
+          path: ["postalCode"],
+        });
+      }
+
+      if (!data.city || !supportedCities.includes(data.city)) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Please select a valid city",
+          path: ["city"],
+        });
+      }
+
+      if (!data.pickupAddress || data.pickupAddress.length < 10) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Pickup Address should be at least 10 characters",
+          path: ["pickupAddress"],
+        });
+      }
+    }
+  });
 
 export function CreateProfileSection() {
   const form = useForm<zod.infer<typeof CreateProfileFormSchema>>({
     resolver: zodResolver(CreateProfileFormSchema),
     defaultValues: {
-      fullName: "",
+      name: "",
+      description: "",
       role: "USER",
+      phone: "",
+      postalCode: "",
+      city: "",
+      deliveryAddress: "",
+      pickupAddress: "",
     },
+    mode: "onChange",
   });
 
   const onSubmit = async (data: zod.infer<typeof CreateProfileFormSchema>) => {
@@ -100,7 +162,7 @@ export function CreateProfileSection() {
           <div className={cn("flex gap-2 items-center")}>
             <FormField
               control={form.control}
-              name="fullName"
+              name="name"
               render={({ field }) => (
                 <FormItem className={cn("flex-1")}>
                   <FormLabel>Name</FormLabel>
@@ -112,6 +174,27 @@ export function CreateProfileSection() {
               )}
             />
           </div>
+          {form.watch("role") === "VENDOR" && (
+            <div className={cn("flex gap-2 items-center")}>
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className={cn("flex-1")}>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Tell us about yourself"
+                        {...field}
+                        className={cn("resize-none")}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          )}
           <div className={cn("flex gap-2 items-center")}>
             <FormField
               control={form.control}
@@ -174,9 +257,23 @@ export function CreateProfileSection() {
                   render={({ field }) => (
                     <FormItem className={cn("flex-1")}>
                       <FormLabel>City</FormLabel>
-                      <FormControl>
-                        <Input placeholder="City" {...field} />
-                      </FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className={cn("")}>
+                            <SelectValue placeholder="Select City" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {supportedCities.map((city) => (
+                            <SelectItem key={city} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -185,10 +282,10 @@ export function CreateProfileSection() {
               <div className={cn("flex gap-2 items-center")}>
                 <FormField
                   control={form.control}
-                  name="shippingDestination"
+                  name="deliveryAddress"
                   render={({ field }) => (
                     <FormItem className={cn("flex-1")}>
-                      <FormLabel>Shipping Destination</FormLabel>
+                      <FormLabel>Delivery Address</FormLabel>
                       <FormControl>
                         <Textarea
                           placeholder="1234 Main St"
@@ -203,7 +300,71 @@ export function CreateProfileSection() {
               </div>
             </>
           )}
-          {form.watch("role") === "VENDOR" && <div />}
+          {form.watch("role") === "VENDOR" && (
+            <>
+              <div className={cn("flex gap-2 items-center")}>
+                <FormField
+                  control={form.control}
+                  name="postalCode"
+                  render={({ field }) => (
+                    <FormItem className={cn("w-32")}>
+                      <FormLabel>Postal Code</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Postal Code" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="city"
+                  render={({ field }) => (
+                    <FormItem className={cn("flex-1")}>
+                      <FormLabel>City</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger className={cn("")}>
+                            <SelectValue placeholder="Select City" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {supportedCities.map((city) => (
+                            <SelectItem key={city} value={city}>
+                              {city}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className={cn("flex gap-2 items-center")}>
+                <FormField
+                  control={form.control}
+                  name="pickupAddress"
+                  render={({ field }) => (
+                    <FormItem className={cn("flex-1")}>
+                      <FormLabel>Pickup Address</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="1234 Main St"
+                          {...field}
+                          className={cn("resize-none")}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </>
+          )}
           {form.watch("role") === "ADMIN" && <div />}
           <div className={cn("flex gap-2 items-center")} />
           <div className={cn("space-x-4")}>

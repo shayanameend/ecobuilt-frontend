@@ -22,17 +22,9 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { Textarea } from "~/components/ui/textarea";
+import { supportedCities, supportedRoles } from "~/lib/constants";
 import { domine } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
-
-const supportedRoles: [string, ...string[]] = ["ADMIN", "USER", "VENDOR"];
-const supportedCities: [string, ...string[]] = [
-  "Cape Town",
-  "Durban",
-  "Johannesburg",
-  "Pretoria",
-  "Port Elizabeth",
-];
 
 const CreateProfileFormSchema = zod
   .object({

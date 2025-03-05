@@ -22,6 +22,7 @@ const authConfig: NextAuthConfig = {
 
         return credentials as {
           email: string;
+          role: string;
         };
       },
     }),

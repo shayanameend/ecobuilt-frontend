@@ -9,7 +9,13 @@ const DEFAULT_LOGIN_REDIRECT = "/";
 
 const API_AUTH_PREFIX = "/api/auth";
 
-const publicLinks = ["/", navRoutes.marketplace.url(), navRoutes.contact.url()];
+const publicLinks = [
+  "/",
+  navRoutes.marketplace.url(),
+  navRoutes.vendors.url(),
+  navRoutes.community.url(),
+  navRoutes.contact.url(),
+];
 
 const authLinks = Object.values(authRoutes).map((route) => route.url());
 

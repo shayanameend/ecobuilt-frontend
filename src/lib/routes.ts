@@ -3,16 +3,16 @@ const navRoutes = {
     label: "Marketplace",
     url: () => "/marketplace",
   },
-  listings: {
-    label: "Listings",
-    url: () => "/listings",
+  vendors: {
+    label: "Vendors",
+    url: () => "/vendors",
   },
   community: {
-    label: "Community Forum",
+    label: "Community",
     url: () => "/community",
   },
   contact: {
-    label: "Contact Us",
+    label: "Contact",
     url: () => "/contact",
   },
 };

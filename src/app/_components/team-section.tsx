@@ -31,7 +31,7 @@ export function TeamSection() {
           </p>
         </div>
         <div className={cn("space-x-4")}>
-          <Link href={navRoutes.listings.url()}>
+          <Link href={navRoutes.vendors.url()}>
             <Button variant="default" size="lg">
               Become a Seller
             </Button>

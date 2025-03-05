@@ -1,9 +1,14 @@
 "use client";
 
+import type { ChangeEvent } from "react";
+
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
+import { Camera } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -50,6 +55,9 @@ const CreateProfileFormSchema = zod
     city: zod.string().optional(),
     deliveryAddress: zod.string().optional(),
     pickupAddress: zod.string().optional(),
+    picture: zod.any().refine((file) => file !== undefined, {
+      message: "Picture is required",
+    }),
   })
   .superRefine((data, ctx) => {
     if (data.role === "USER") {
@@ -114,9 +122,12 @@ const CreateProfileFormSchema = zod
   });
 
 export function CreateProfileSection() {
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
   const form = useForm<zod.infer<typeof CreateProfileFormSchema>>({
     resolver: zodResolver(CreateProfileFormSchema),
     defaultValues: {
+      picture: undefined,
       name: "",
       description: "",
       role: "USER",
@@ -129,7 +140,33 @@ export function CreateProfileSection() {
     mode: "onChange",
   });
 
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      form.setValue("picture", file);
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        setProfileImage(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const onSubmit = async (data: zod.infer<typeof CreateProfileFormSchema>) => {
+    const formData = new FormData();
+
+    // biome-ignore lint/complexity/noForEach: <>
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined) {
+        if (key === "picture" && value instanceof File) {
+          formData.append(key, value);
+        } else {
+          formData.append(key, String(value));
+        }
+      }
+    });
+
     console.log({ data });
   };
 
@@ -151,7 +188,52 @@ export function CreateProfileSection() {
           onSubmit={form.handleSubmit(onSubmit)}
           className={cn("space-y-6")}
         >
-          <div className={cn("flex gap-2 items-center")}>
+          <div
+            className={cn(
+              "relative top-4 flex flex-col gap-2 items-center justify-center",
+            )}
+          >
+            <div className="relative group">
+              <Avatar className={cn("size-32 border-2 border-primary/20")}>
+                <AvatarImage src={profileImage || ""} />
+                <AvatarFallback>
+                  {form.watch("name")
+                    ? form
+                        .watch("name")
+                        .split(" ")
+                        .map((part) => part.charAt(0).toUpperCase())
+                        .join("")
+                    : "JD"}
+                </AvatarFallback>
+              </Avatar>
+
+              <label
+                htmlFor="profile-image-upload"
+                className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 rounded-full cursor-pointer transition-opacity"
+              >
+                <Camera className="h-8 w-8 text-white" />
+              </label>
+            </div>
+
+            <Input
+              id="profile-image-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageUpload}
+            />
+
+            <FormField
+              control={form.control}
+              name="picture"
+              render={({ field: { value, ...field } }) => (
+                <FormItem>
+                  <FormMessage className="text-center" />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className={cn("flex gap-2 items-start")}>
             <FormField
               control={form.control}
               name="name"
@@ -167,7 +249,7 @@ export function CreateProfileSection() {
             />
           </div>
           {form.watch("role") === "VENDOR" && (
-            <div className={cn("flex gap-2 items-center")}>
+            <div className={cn("flex gap-2 items-start")}>
               <FormField
                 control={form.control}
                 name="description"
@@ -187,7 +269,7 @@ export function CreateProfileSection() {
               />
             </div>
           )}
-          <div className={cn("flex gap-2 items-center")}>
+          <div className={cn("flex gap-2 items-start")}>
             <FormField
               control={form.control}
               name="role"
@@ -229,7 +311,7 @@ export function CreateProfileSection() {
           </div>
           {form.watch("role") === "USER" && (
             <>
-              <div className={cn("flex gap-2 items-center")}>
+              <div className={cn("flex gap-2 items-start")}>
                 <FormField
                   control={form.control}
                   name="postalCode"
@@ -271,7 +353,7 @@ export function CreateProfileSection() {
                   )}
                 />
               </div>
-              <div className={cn("flex gap-2 items-center")}>
+              <div className={cn("flex gap-2 items-start")}>
                 <FormField
                   control={form.control}
                   name="deliveryAddress"
@@ -294,7 +376,7 @@ export function CreateProfileSection() {
           )}
           {form.watch("role") === "VENDOR" && (
             <>
-              <div className={cn("flex gap-2 items-center")}>
+              <div className={cn("flex gap-2 items-start")}>
                 <FormField
                   control={form.control}
                   name="postalCode"
@@ -336,7 +418,7 @@ export function CreateProfileSection() {
                   )}
                 />
               </div>
-              <div className={cn("flex gap-2 items-center")}>
+              <div className={cn("flex gap-2 items-start")}>
                 <FormField
                   control={form.control}
                   name="pickupAddress"
@@ -357,8 +439,6 @@ export function CreateProfileSection() {
               </div>
             </>
           )}
-          {form.watch("role") === "ADMIN" && <div />}
-          <div className={cn("flex gap-2 items-center")} />
           <div className={cn("space-x-4")}>
             <Button variant="default" size="lg" className={cn("w-full")}>
               Create Profile

@@ -16,13 +16,12 @@ const authConfig: NextAuthConfig = {
         role: { label: "Role", type: "text" },
       },
       async authorize(credentials) {
-        if (!credentials.email || !credentials.role) {
-          throw new Error("Email and Role are required!");
+        if (!credentials.email) {
+          throw new Error("Email is required!");
         }
 
         return credentials as {
           email: string;
-          role: string;
         };
       },
     }),

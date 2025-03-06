@@ -1,9 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
-import { default as Link } from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import { default as axios, AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as zod from "zod";
 
 import { Button } from "~/components/ui/button";
@@ -17,7 +19,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
-import { authRoutes } from "~/lib/routes";
+import { apiRoutes, authRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 const UpdatePasswordFormSchema = zod.object({
@@ -33,7 +35,25 @@ const UpdatePasswordFormSchema = zod.object({
     }),
 });
 
+async function updatePassword({
+  password,
+}: zod.infer<typeof UpdatePasswordFormSchema>) {
+  const response = await axios.post(
+    apiRoutes.auth.updatePassword(),
+    { password },
+    {
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    },
+  );
+
+  return response.data;
+}
+
 export function UpdatePasswordSection() {
+  const router = useRouter();
+
   const form = useForm<zod.infer<typeof UpdatePasswordFormSchema>>({
     resolver: zodResolver(UpdatePasswordFormSchema),
     defaultValues: {
@@ -41,8 +61,27 @@ export function UpdatePasswordSection() {
     },
   });
 
+  const updatePasswordMutation = useMutation({
+    mutationFn: updatePassword,
+    onSuccess: ({ info }) => {
+      toast.success(info.message);
+
+      sessionStorage.removeItem("token");
+
+      router.push(authRoutes.signIn.url());
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.info.message);
+      }
+    },
+    onSettled: () => {
+      form.reset();
+    },
+  });
+
   const onSubmit = async (data: zod.infer<typeof UpdatePasswordFormSchema>) => {
-    await signIn("credentials", data);
+    updatePasswordMutation.mutate(data);
   };
 
   return (

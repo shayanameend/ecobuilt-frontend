@@ -18,7 +18,7 @@ export const {
     async session({ token, session }) {
       if (token.email && session.user) {
         session.user.email = token.email as string;
-        session.user.role = token.role as
+        session.user.token = token.token as
           | "SUPER ADMIN"
           | "ADMIN"
           | "USER"
@@ -31,8 +31,8 @@ export const {
       if (user) {
         token.email = user.email;
 
-        if ("role" in user) {
-          token.role = user.role;
+        if ("token" in user) {
+          token.token = user.token;
         }
       }
 

@@ -13,7 +13,7 @@ const authConfig: NextAuthConfig = {
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
-        role: { label: "Role", type: "text" },
+        token: { label: "Token", type: "text" },
       },
       async authorize(credentials) {
         if (!credentials.email) {
@@ -22,7 +22,7 @@ const authConfig: NextAuthConfig = {
 
         return credentials as {
           email: string;
-          role: string;
+          token: string;
         };
       },
     }),

@@ -1,9 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import { default as axios, AxiosError } from "axios";
+import { Loader2Icon } from "lucide-react";
 import { default as Link } from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as zod from "zod";
 
 import { Button } from "~/components/ui/button";
@@ -17,7 +21,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
-import { authRoutes } from "~/lib/routes";
+import { apiRoutes, authRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 const ForgotPasswordFormSchema = zod.object({
@@ -30,7 +34,19 @@ const ForgotPasswordFormSchema = zod.object({
     }),
 });
 
+async function forgotPassword({
+  email,
+}: zod.infer<typeof ForgotPasswordFormSchema>) {
+  const response = await axios.post(apiRoutes.auth.forgotPassword(), {
+    email,
+  });
+
+  return response.data;
+}
+
 export function ForgotPasswordSection() {
+  const router = useRouter();
+
   const form = useForm<zod.infer<typeof ForgotPasswordFormSchema>>({
     resolver: zodResolver(ForgotPasswordFormSchema),
     defaultValues: {
@@ -38,8 +54,29 @@ export function ForgotPasswordSection() {
     },
   });
 
-  const onSubmit = async (data: zod.infer<typeof ForgotPasswordFormSchema>) => {
-    await signIn("credentials", data);
+  const forgotPasswordMutation = useMutation({
+    mutationFn: forgotPassword,
+    onSuccess: ({ data, info }) => {
+      toast.success(info.message);
+
+      sessionStorage.setItem("token", data.token);
+
+      router.push(
+        `${authRoutes.verifyOtp.url()}?email=${form.getValues("email")}&type=RESET_PASSWORD`,
+      );
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.info.message);
+      }
+    },
+    onSettled: () => {
+      form.reset();
+    },
+  });
+
+  const onSubmit = (data: zod.infer<typeof ForgotPasswordFormSchema>) => {
+    forgotPasswordMutation.mutate(data);
   };
 
   return (
@@ -76,8 +113,17 @@ export function ForgotPasswordSection() {
             />
           </div>
           <div className={cn("space-x-4")}>
-            <Button variant="default" size="lg" className={cn("w-full")}>
-              Forgot Password
+            <Button
+              variant="default"
+              size="lg"
+              className={cn("w-full")}
+              type="submit"
+              disabled={forgotPasswordMutation.isPending}
+            >
+              {forgotPasswordMutation.isPending && (
+                <Loader2Icon className={cn("animate-spin")} />
+              )}
+              <span>Forgot Password</span>
             </Button>
           </div>
           <div>

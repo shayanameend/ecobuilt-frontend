@@ -1,9 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import { default as axios, AxiosError } from "axios";
+import { Loader2Icon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as zod from "zod";
+import { createToken } from "~/auth/client";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -16,6 +21,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
+import { apiRoutes, authRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 const VerifyOtpFormSchema = zod.object({
@@ -31,7 +37,44 @@ const VerifyOtpFormSchema = zod.object({
     }),
 });
 
-export function VerifyOtpSection() {
+async function verifyOtp({ otp }: zod.infer<typeof VerifyOtpFormSchema>) {
+  const response = await axios.post(
+    apiRoutes.auth.verifyOtp(),
+    { otp },
+    {
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    },
+  );
+
+  return response.data;
+}
+
+async function resendOTP({
+  type,
+}: {
+  type: "VERIFY_EMAIL" | "RESET_PASSWORD";
+}) {
+  const response = await axios.post(
+    apiRoutes.auth.resendOtp(),
+    { type },
+    {
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    },
+  );
+
+  return response.data;
+}
+
+export function VerifyOtpSection({
+  email,
+  type,
+}: { email: string; type: "VERIFY_EMAIL" | "RESET_PASSWORD" }) {
+  const router = useRouter();
+
   const form = useForm<zod.infer<typeof VerifyOtpFormSchema>>({
     resolver: zodResolver(VerifyOtpFormSchema),
     defaultValues: {
@@ -39,8 +82,49 @@ export function VerifyOtpSection() {
     },
   });
 
-  const onSubmit = async (data: zod.infer<typeof VerifyOtpFormSchema>) => {
-    await signIn("credentials", data);
+  const verifyOtpMutation = useMutation({
+    mutationFn: verifyOtp,
+    onSuccess: ({ data, info }) => {
+      toast.success(info.message);
+
+      sessionStorage.removeItem("token");
+
+      switch (type) {
+        case "VERIFY_EMAIL":
+          createToken({ email, token: data.token });
+          break;
+        case "RESET_PASSWORD":
+          router.push(authRoutes.updatePassword.url());
+          break;
+      }
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.info.message);
+      }
+    },
+    onSettled: () => {
+      form.reset();
+    },
+  });
+
+  const resendOTPMutation = useMutation({
+    mutationFn: resendOTP,
+    onSuccess: ({ info }) => {
+      toast.success(info.message);
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.info.message);
+      }
+    },
+    onSettled: () => {
+      form.reset();
+    },
+  });
+
+  const onSubmit = (data: zod.infer<typeof VerifyOtpFormSchema>) => {
+    verifyOtpMutation.mutate(data);
   };
 
   return (
@@ -77,9 +161,31 @@ export function VerifyOtpSection() {
             />
           </div>
           <div className={cn("space-x-4")}>
-            <Button variant="default" size="lg" className={cn("w-full")}>
-              Verify
+            <Button
+              variant="default"
+              size="lg"
+              className={cn("w-full")}
+              type="submit"
+              disabled={verifyOtpMutation.isPending}
+            >
+              {verifyOtpMutation.isPending && (
+                <Loader2Icon className={cn("animate-spin")} />
+              )}
+              <span>Verify</span>
             </Button>
+          </div>
+          <div>
+            <p className={cn("text-sm text-center text-muted-foreground")}>
+              Didn&apos;t get an OTP?{" "}
+              <Button
+                onClick={() => resendOTPMutation.mutate({ type })}
+                type="button"
+                variant="link"
+                className={cn("p-0 text-inherit underline underline-offset-4")}
+              >
+                Resend
+              </Button>
+            </p>
           </div>
         </form>
       </Form>

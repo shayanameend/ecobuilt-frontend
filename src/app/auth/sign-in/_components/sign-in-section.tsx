@@ -1,10 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError, default as axios } from "axios";
+import { Loader2Icon } from "lucide-react";
 import { default as Link } from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import * as zod from "zod";
+import { createToken } from "~/auth/client";
 
 import { Button } from "~/components/ui/button";
 import {
@@ -17,7 +22,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
-import { authRoutes } from "~/lib/routes";
+import { apiRoutes, authRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 const SignInFormSchema = zod.object({
@@ -37,7 +42,18 @@ const SignInFormSchema = zod.object({
     }),
 });
 
+async function signIn({ email, password }: zod.infer<typeof SignInFormSchema>) {
+  const response = await axios.post(apiRoutes.auth.signIn(), {
+    email,
+    password,
+  });
+
+  return response.data;
+}
+
 export function SignInSection() {
+  const router = useRouter();
+
   const form = useForm<zod.infer<typeof SignInFormSchema>>({
     resolver: zodResolver(SignInFormSchema),
     defaultValues: {
@@ -46,8 +62,38 @@ export function SignInSection() {
     },
   });
 
-  const onSubmit = async (data: zod.infer<typeof SignInFormSchema>) => {
-    await signIn("credentials", data);
+  const signInMutation = useMutation({
+    mutationFn: signIn,
+    onSuccess: ({ data, info }) => {
+      toast.success(info.message);
+
+      switch (info.message) {
+        case "OTP Sent Successfully!":
+          sessionStorage.setItem("token", data.token);
+
+          router.push(
+            `${authRoutes.verifyOtp.url()}?email=${form.getValues("email")}&type=VERIFY_EMAIL`,
+          );
+          break;
+        case "Sign In Successfull!":
+          sessionStorage.removeItem("token");
+
+          createToken({ email: form.getValues("email"), token: data.token });
+          break;
+      }
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.info.message);
+      }
+    },
+    onSettled: () => {
+      form.reset();
+    },
+  });
+
+  const onSubmit = (data: zod.infer<typeof SignInFormSchema>) => {
+    signInMutation.mutate(data);
   };
 
   return (
@@ -99,8 +145,17 @@ export function SignInSection() {
             />
           </div>
           <div className={cn("space-x-4")}>
-            <Button variant="default" size="lg" className={cn("w-full")}>
-              Sign In
+            <Button
+              variant="default"
+              size="lg"
+              className={cn("w-full")}
+              type="submit"
+              disabled={signInMutation.isPending}
+            >
+              {signInMutation.isPending && (
+                <Loader2Icon className={cn("animate-spin")} />
+              )}
+              <span>Sign In</span>
             </Button>
           </div>
           <div>

@@ -44,4 +44,18 @@ const authRoutes = {
   },
 };
 
-export { navRoutes, authRoutes };
+const apiRoutes = {
+  auth: {
+    signUp: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-up`,
+    signIn: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/sign-in`,
+    forgotPassword: () =>
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/forgot-password`,
+    resendOtp: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/resend-otp`,
+    verifyOtp: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/verify-otp`,
+    updatePassword: () =>
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/update-password`,
+    refreshToken: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/refresh`,
+  },
+};
+
+export { navRoutes, authRoutes, apiRoutes };

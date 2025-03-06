@@ -138,7 +138,7 @@ export function SignInSection() {
                 <FormItem className={cn("flex-1")}>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" {...field} />
+                    <Input type="password" placeholder="********" {...field} />
                   </FormControl>
                   <FormMessage />
                   <FormDescription className={cn("text-right")}>

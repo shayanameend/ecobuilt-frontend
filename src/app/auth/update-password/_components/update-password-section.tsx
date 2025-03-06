@@ -111,7 +111,7 @@ export function UpdatePasswordSection() {
                 <FormItem className={cn("flex-1")}>
                   <FormLabel>New Password</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" {...field} />
+                    <Input type="password" placeholder="********" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

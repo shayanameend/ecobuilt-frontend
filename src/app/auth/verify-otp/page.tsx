@@ -1,14 +1,14 @@
 import { VerifyOtpSection } from "./_components/verify-otp-section";
 
-export default function VerifyOtpPage({
+export default async function VerifyOtpPage({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     email: string;
     type: "VERIFY_EMAIL" | "RESET_PASSWORD";
-  };
+  }>;
 }) {
-  const { email, type } = searchParams;
+  const { email, type } = await searchParams;
 
   return <VerifyOtpSection email={email} type={type} />;
 }

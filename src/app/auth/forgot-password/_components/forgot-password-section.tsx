@@ -14,6 +14,7 @@ import { Button } from "~/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -108,6 +109,14 @@ export function ForgotPasswordSection() {
                     <Input placeholder="john@domain.com" {...field} />
                   </FormControl>
                   <FormMessage />
+                  <FormDescription className={cn("text-right")}>
+                    <Link
+                      href={authRoutes.forgotPassword.url()}
+                      className={cn("underline underline-offset-4")}
+                    >
+                      Forgot password?
+                    </Link>
+                  </FormDescription>
                 </FormItem>
               )}
             />

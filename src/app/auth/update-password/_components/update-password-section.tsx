@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, default as axios } from "axios";
+import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -118,8 +119,17 @@ export function UpdatePasswordSection() {
             />
           </div>
           <div className={cn("space-x-4")}>
-            <Button variant="default" size="lg" className={cn("w-full")}>
-              Update Password
+            <Button
+              variant="default"
+              size="lg"
+              className={cn("w-full")}
+              type="submit"
+              disabled={updatePasswordMutation.isPending}
+            >
+              {updatePasswordMutation.isPending && (
+                <Loader2Icon className={cn("animate-spin")} />
+              )}
+              <span>Update Password</span>
             </Button>
           </div>
         </form>

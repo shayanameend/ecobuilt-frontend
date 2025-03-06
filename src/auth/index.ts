@@ -18,11 +18,7 @@ export const {
     async session({ token, session }) {
       if (token.email && session.user) {
         session.user.email = token.email as string;
-        session.user.token = token.token as
-          | "SUPER ADMIN"
-          | "ADMIN"
-          | "USER"
-          | "VENDOR";
+        session.user.token = token.token as string;
       }
 
       return session;

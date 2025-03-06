@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as zod from "zod";
-import { createToken } from "~/auth/client";
 
+import { createToken } from "~/auth/client";
 import { Button } from "~/components/ui/button";
 import {
   Form,

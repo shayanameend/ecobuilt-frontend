@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as zod from "zod";
-import { createToken } from "~/auth/client";
 
+import { createToken } from "~/auth/client";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -37,10 +37,15 @@ const VerifyOtpFormSchema = zod.object({
     }),
 });
 
-async function verifyOtp({ otp }: zod.infer<typeof VerifyOtpFormSchema>) {
+async function verifyOtp({
+  otp,
+  type,
+}: zod.infer<typeof VerifyOtpFormSchema> & {
+  type: "VERIFY_EMAIL" | "RESET_PASSWORD";
+}) {
   const response = await axios.post(
     apiRoutes.auth.verifyOtp(),
-    { otp },
+    { otp, type },
     {
       headers: {
         authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -124,7 +129,7 @@ export function VerifyOtpSection({
   });
 
   const onSubmit = (data: zod.infer<typeof VerifyOtpFormSchema>) => {
-    verifyOtpMutation.mutate(data);
+    verifyOtpMutation.mutate({ ...data, type });
   };
 
   return (

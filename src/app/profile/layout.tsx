@@ -8,7 +8,7 @@ export default function AuthLayout({ children }: Readonly<PropsWithChildren>) {
     <main>
       <section
         className={cn(
-          "py-14 px-24 min-h-[calc(100svh_-_7rem)] flex gap-12 justify-center",
+          "py-14 md:px-24 min-h-[calc(100svh_-_7rem)] flex gap-12 justify-center",
         )}
       >
         {children}

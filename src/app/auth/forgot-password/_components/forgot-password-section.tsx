@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { default as axios, AxiosError } from "axios";
+import { AxiosError, default as axios } from "axios";
 import { Loader2Icon } from "lucide-react";
 import { default as Link } from "next/link";
 import { useRouter } from "next/navigation";

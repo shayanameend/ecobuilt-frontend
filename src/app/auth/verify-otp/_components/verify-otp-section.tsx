@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { default as axios, AxiosError } from "axios";
+import { AxiosError, default as axios } from "axios";
 import { Loader2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -92,10 +92,10 @@ export function VerifyOtpSection({
     onSuccess: ({ data, info }) => {
       toast.success(info.message);
 
-      sessionStorage.removeItem("token");
-
       switch (type) {
         case "VERIFY_EMAIL":
+          sessionStorage.removeItem("token");
+
           createToken({ email, token: data.token });
           break;
         case "RESET_PASSWORD":

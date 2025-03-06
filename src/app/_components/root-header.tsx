@@ -39,10 +39,10 @@ export function RootHeader() {
           <img
             src={assets.logo.asset.src}
             alt={assets.logo.alt}
-            className={cn("h-24 w-auto")}
+            className={cn("h-16 md:h-24 w-auto")}
           />
         </Link>
-        <ul className={cn("flex gap-4 items-center")}>
+        <ul className={cn("hidden md:flex gap-4 items-center")}>
           {navLinks.map((route) => (
             <li key={route.label}>
               <Link href={route.url()}>

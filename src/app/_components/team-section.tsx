@@ -11,7 +11,7 @@ export function TeamSection() {
   return (
     <section
       className={cn(
-        "py-24 px-24 flex flex-row gap-12 items-center justify-center",
+        "py-24 md:px-24 flex flex-row gap-12 items-center justify-center",
       )}
     >
       <div className={cn("flex-1 -mt-6 py-4 px-8 space-y-8")}>
@@ -38,7 +38,7 @@ export function TeamSection() {
           </Link>
         </div>
       </div>
-      <div className={cn("flex-1 -m-24 py-4 px-24")}>
+      <div className={cn("flex-1 -m-24 py-4 px-24 hidden md:block")}>
         <img
           src={assets.teamSectionBanner.asset.src}
           alt={assets.teamSectionBanner.alt}

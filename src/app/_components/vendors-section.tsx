@@ -14,7 +14,7 @@ export function VendorsSection() {
   return (
     <section
       className={cn(
-        "py-8 pb-14 px-24 flex flex-col gap-12 items-center justify-center",
+        "py-8 pb-14 md:px-24 flex flex-col gap-12 items-center justify-center",
       )}
     >
       <div className={cn("text-center space-y-4")}>

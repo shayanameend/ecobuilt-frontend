@@ -23,7 +23,7 @@ export function WhatSection() {
   return (
     <section
       className={cn(
-        "py-16 px-24 flex flex-row-reverse gap-12 items-center justify-center",
+        "py-16 md:px-24 flex flex-col md:flex-row-reverse gap-12 items-center justify-center",
       )}
     >
       <div className={cn("flex-1 -mt-8 py-4 px-8 space-y-8")}>
@@ -48,7 +48,7 @@ export function WhatSection() {
           </Link>
         </div>
       </div>
-      <div className={cn("flex-1 py-4 px-8 grid grid-cols-2 gap-4")}>
+      <div className={cn("flex-1 py-4 px-8 grid md:grid-cols-2 gap-4")}>
         <Card>
           <CardHeader className={cn("p-4")}>
             <RecycleIcon size={36} className={cn("text-primary/70")} />

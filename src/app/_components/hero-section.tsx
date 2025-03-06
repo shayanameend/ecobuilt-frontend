@@ -11,16 +11,19 @@ export function HeroSection() {
   return (
     <section
       className={cn(
-        "py-4 px-24 min-h-[calc(100svh_-_7rem)] flex gap-12 items-center justify-center",
+        "py-4 md:px-24 min-h-[calc(100svh_-_7rem)] flex gap-12 items-center justify-center",
       )}
     >
-      <div className={cn("flex-1 -mt-20 py-4 px-8 space-y-12")}>
+      <div className={cn("flex-1 -mt-16 md:-mt-20 py-4 px-8 space-y-12")}>
         <div className={cn("space-y-4")}>
           <Badge variant="outline" className={cn("ml-1")}>
             WHO WE ARE
           </Badge>
           <h2
-            className={cn("text-black/75 text-6xl font-bold", domine.className)}
+            className={cn(
+              "text-black/75 text-5xl md:text-6xl font-bold",
+              domine.className,
+            )}
           >
             Cost-effective solutions for the construction sector.
           </h2>
@@ -42,7 +45,7 @@ export function HeroSection() {
           </Link>
         </div>
       </div>
-      <div className={cn("flex-1 -mt-24 py-4 px-2")}>
+      <div className={cn("flex-1 -mt-24 py-4 px-2 hidden md:block")}>
         <img
           src={assets.heroSectionBanner.asset.src}
           alt={assets.heroSectionBanner.alt}

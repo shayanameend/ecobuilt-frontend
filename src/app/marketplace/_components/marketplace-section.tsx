@@ -100,7 +100,7 @@ export function MarketplaceSection() {
 
   return (
     <>
-      <aside className="py-2 w-64 pr-8 flex flex-col gap-6">
+      <aside className="py-2 w-64 pr-8 hidden md:flex flex-col gap-6">
         <nav className={cn("space-y-6")}>
           <div>
             <h3 className={cn("text-base font-semibold mb-3")}>Categories</h3>
@@ -222,9 +222,15 @@ export function MarketplaceSection() {
         </nav>
       </aside>
       <section className={cn("flex-1 flex flex-col gap-12")}>
-        <div className={cn("flex justify-between items-start gap-12")}>
+        <div
+          className={cn(
+            "flex flex-col-reverse md:flex-row justify-between md:items-start gap-12",
+          )}
+        >
           <div className={cn("flex-[2]")}>
-            <h2 className={cn("text-4xl font-bold", domine.className)}>
+            <h2
+              className={cn("text-3xl md:text-4xl font-bold", domine.className)}
+            >
               Building Supplies
             </h2>
           </div>

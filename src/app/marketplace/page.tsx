@@ -7,7 +7,11 @@ import { MarketplaceSection } from "./_components/marketplace-section";
 export default function MarketplacePage() {
   return (
     <>
-      <main className={cn("pt-6 pb-12 px-24 min-h-[calc(100svh_-_8rem)] flex")}>
+      <main
+        className={cn(
+          "pt-6 pb-12 px-8 md:px-24 min-h-[calc(100svh_-_8rem)] flex",
+        )}
+      >
         <Suspense fallback={<p>Loading marketplace items...</p>}>
           <MarketplaceSection />
         </Suspense>

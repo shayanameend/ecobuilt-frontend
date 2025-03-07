@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as zod from "zod";
 
+import { OtpType } from "~/../types";
 import { createToken } from "~/auth/client";
 import { Button } from "~/components/ui/button";
 import {
@@ -25,7 +26,6 @@ import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
 import { apiRoutes, authRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
-import { OtpType } from "~/../types";
 
 const SignInFormSchema = zod.object({
   email: zod

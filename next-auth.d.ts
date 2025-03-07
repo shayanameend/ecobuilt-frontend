@@ -1,6 +1,6 @@
 import type { DefaultSession } from "next-auth";
 
-import type { DecodedUser, Role, UserStatus } from "~/../types";
+import type { DecodedUser, Role, UserStatus } from "./types";
 
 export type ExtendedUser = DefaultSession["user"] & DecodedUser;
 

@@ -1,6 +1,6 @@
 import { signIn, signOut } from "next-auth/react";
 
-import type { DecodedUser } from "~/../types";
+import type { DecodedUser } from "../../types";
 
 async function createToken(user: DecodedUser) {
   return await signIn("credentials", user);

@@ -1,4 +1,4 @@
-import type { OtpType } from "~/../types";
+import type { OtpType } from "../../../../../types";
 
 import { VerifyOtpSection } from "./_components/verify-otp-section";
 

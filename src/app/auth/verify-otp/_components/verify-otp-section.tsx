@@ -41,7 +41,7 @@ async function verifyOtp({
   otp,
   type,
 }: zod.infer<typeof VerifyOtpFormSchema> & {
-  type: "VERIFY_EMAIL" | "RESET_PASSWORD";
+  type: "VERIFY" | "RESET";
 }) {
   const response = await axios.post(
     apiRoutes.auth.verifyOtp(),
@@ -59,7 +59,7 @@ async function verifyOtp({
 async function resendOTP({
   type,
 }: {
-  type: "VERIFY_EMAIL" | "RESET_PASSWORD";
+  type: "VERIFY" | "RESET";
 }) {
   const response = await axios.post(
     apiRoutes.auth.resendOtp(),
@@ -77,7 +77,7 @@ async function resendOTP({
 export function VerifyOtpSection({
   email,
   type,
-}: { email: string; type: "VERIFY_EMAIL" | "RESET_PASSWORD" }) {
+}: { email: string; type: "VERIFY" | "RESET" }) {
   const router = useRouter();
 
   const form = useForm<zod.infer<typeof VerifyOtpFormSchema>>({
@@ -93,12 +93,12 @@ export function VerifyOtpSection({
       toast.success(info.message);
 
       switch (type) {
-        case "VERIFY_EMAIL":
+        case "VERIFY":
           sessionStorage.removeItem("token");
 
           createToken({ email, token: data.token });
           break;
-        case "RESET_PASSWORD":
+        case "RESET":
           router.push(authRoutes.updatePassword.url());
           break;
       }

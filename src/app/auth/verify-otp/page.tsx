@@ -5,7 +5,7 @@ export default async function VerifyOtpPage({
 }: {
   searchParams: Promise<{
     email: string;
-    type: "VERIFY_EMAIL" | "RESET_PASSWORD";
+    type: "VERIFY" | "RESET";
   }>;
 }) {
   const { email, type } = await searchParams;

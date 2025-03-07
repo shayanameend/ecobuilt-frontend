@@ -73,7 +73,7 @@ export function SignInSection() {
           sessionStorage.setItem("token", data.token);
 
           router.push(
-            `${authRoutes.verifyOtp.url()}?email=${form.getValues("email")}&type=VERIFY_EMAIL`,
+            `${authRoutes.verifyOtp.url()}?email=${form.getValues("email")}&type=VERIFY`,
           );
           break;
         case "Sign In Successfull!":

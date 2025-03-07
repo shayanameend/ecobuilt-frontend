@@ -62,7 +62,7 @@ export function ForgotPasswordSection() {
       sessionStorage.setItem("token", data.token);
 
       router.push(
-        `${authRoutes.verifyOtp.url()}?email=${form.getValues("email")}&type=RESET_PASSWORD`,
+        `${authRoutes.verifyOtp.url()}?email=${form.getValues("email")}&type=RESET`,
       );
     },
     onError: (error) => {

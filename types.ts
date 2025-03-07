@@ -7,7 +7,7 @@ type DecodedUser = {
   isVerified: boolean;
   isDeleted: boolean;
   createdAt: Date;
-  updatedAt: Data;
+  updatedAt: Date;
 };
 
 enum Role {

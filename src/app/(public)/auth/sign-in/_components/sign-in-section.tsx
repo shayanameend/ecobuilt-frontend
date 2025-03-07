@@ -25,6 +25,7 @@ import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
 import { apiRoutes, authRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
+import { OtpType } from "~/../types";
 
 const SignInFormSchema = zod.object({
   email: zod
@@ -72,14 +73,12 @@ export function SignInSection() {
         case "OTP Sent Successfully!":
           sessionStorage.setItem("token", data.token);
 
-          router.push(
-            `${authRoutes.verifyOtp.url()}?email=${form.getValues("email")}&type=VERIFY`,
-          );
+          router.push(`${authRoutes.verifyOtp.url()}?type=${OtpType.VERIFY}`);
           break;
         case "Sign In Successfull!":
           sessionStorage.removeItem("token");
 
-          createToken({ email: form.getValues("email"), token: data.token });
+          createToken({ access: data.token, ...data.user });
           break;
       }
     },

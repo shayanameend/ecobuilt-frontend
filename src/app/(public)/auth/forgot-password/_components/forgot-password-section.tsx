@@ -23,6 +23,7 @@ import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
 import { apiRoutes, authRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
+import { OtpType } from "~/../types";
 
 const ForgotPasswordFormSchema = zod.object({
   email: zod
@@ -61,9 +62,7 @@ export function ForgotPasswordSection() {
 
       sessionStorage.setItem("token", data.token);
 
-      router.push(
-        `${authRoutes.verifyOtp.url()}?email=${form.getValues("email")}&type=RESET`,
-      );
+      router.push(`${authRoutes.verifyOtp.url()}?type=${OtpType.RESET}`);
     },
     onError: (error) => {
       if (error instanceof AxiosError) {

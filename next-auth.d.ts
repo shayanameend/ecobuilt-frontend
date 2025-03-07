@@ -1,8 +1,8 @@
-import NextAuth, { type DefaultSession } from "next-auth";
+import type { DefaultSession } from "next-auth";
 
-export type ExtendedUser = DefaultSession["user"] & {
-  token: string;
-};
+import type { DecodedUser, Role, UserStatus } from "~/../types";
+
+export type ExtendedUser = DefaultSession["user"] & DecodedUser;
 
 declare module "next-auth" {
   interface Session {

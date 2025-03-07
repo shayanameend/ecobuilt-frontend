@@ -12,7 +12,7 @@ import {
   categories,
   products,
   vendors,
-} from "~/app/marketplace/_components/product";
+} from "~/app/(public)/marketplace/_components/product";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import {

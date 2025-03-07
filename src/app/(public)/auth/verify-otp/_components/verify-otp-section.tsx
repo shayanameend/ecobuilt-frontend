@@ -1,5 +1,7 @@
 "use client";
 
+import type { OtpType } from "~/../types";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, default as axios } from "axios";
@@ -41,7 +43,7 @@ async function verifyOtp({
   otp,
   type,
 }: zod.infer<typeof VerifyOtpFormSchema> & {
-  type: "VERIFY" | "RESET";
+  type: OtpType;
 }) {
   const response = await axios.post(
     apiRoutes.auth.verifyOtp(),
@@ -59,7 +61,7 @@ async function verifyOtp({
 async function resendOTP({
   type,
 }: {
-  type: "VERIFY" | "RESET";
+  type: OtpType;
 }) {
   const response = await axios.post(
     apiRoutes.auth.resendOtp(),
@@ -74,10 +76,7 @@ async function resendOTP({
   return response.data;
 }
 
-export function VerifyOtpSection({
-  email,
-  type,
-}: { email: string; type: "VERIFY" | "RESET" }) {
+export function VerifyOtpSection({ type }: { type: OtpType }) {
   const router = useRouter();
 
   const form = useForm<zod.infer<typeof VerifyOtpFormSchema>>({
@@ -96,7 +95,7 @@ export function VerifyOtpSection({
         case "VERIFY":
           sessionStorage.removeItem("token");
 
-          createToken({ email, token: data.token });
+          createToken({ access: data.token, ...data.user });
           break;
         case "RESET":
           router.push(authRoutes.updatePassword.url());

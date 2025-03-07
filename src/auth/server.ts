@@ -2,17 +2,13 @@
 
 import { signIn, signOut, update } from "~/auth";
 
-async function createToken(user: {
-  email: string;
-  token: string;
-}) {
+import type { DecodedUser } from "~/../types";
+
+async function createToken(user: DecodedUser) {
   return await signIn("credentials", user);
 }
 
-async function updateToken(user: {
-  email: string;
-  token: string;
-}) {
+async function updateToken(user: DecodedUser) {
   return await update({ user });
 }
 

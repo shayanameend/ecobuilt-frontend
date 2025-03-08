@@ -194,7 +194,9 @@ export function CreateProfileSection() {
     onSuccess: ({ info }) => {
       toast.success(info.message);
 
-      router.refresh();
+      window.location.reload();
+
+      router.push(appRoutes.nav.root.url());
     },
     onError: (error) => {
       if (error instanceof AxiosError) {

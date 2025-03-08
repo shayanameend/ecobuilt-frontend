@@ -22,7 +22,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
-import { apiRoutes, authRoutes } from "~/lib/routes";
+import { apiRoutes, appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 const SignUpFormSchema = zod.object({
@@ -69,7 +69,7 @@ export function SignUpSection() {
 
       sessionStorage.setItem("token", data.token);
 
-      router.push(`${authRoutes.verifyOtp.url()}?type=${OtpType.VERIFY}`);
+      router.push(`${appRoutes.auth.verifyOtp.url()}?type=${OtpType.VERIFY}`);
     },
     onError: (error) => {
       if (error instanceof AxiosError) {
@@ -155,7 +155,7 @@ export function SignUpSection() {
             >
               Already have an account?{" "}
               <Link
-                href={authRoutes.signIn.url()}
+                href={appRoutes.auth.signIn.url()}
                 className={cn("text-primary")}
               >
                 Sign In

@@ -1,23 +1,19 @@
-import NextAuth from "next-auth";
-
-import { authConfig } from "~/auth/config";
-import { authRoutes, navRoutes } from "~/lib/routes";
-
-const { auth } = NextAuth(authConfig);
+import { auth } from "~/auth";
+import { appRoutes } from "~/lib/routes";
 
 const DEFAULT_LOGIN_REDIRECT = "/";
 
 const API_AUTH_PREFIX = "/api/auth";
 
 const publicLinks = [
-  "/",
-  navRoutes.marketplace.url(),
-  navRoutes.vendors.url(),
-  navRoutes.community.url(),
-  navRoutes.contact.url(),
+  appRoutes.nav.root.url(),
+  appRoutes.nav.marketplace.url(),
+  appRoutes.nav.vendors.url(),
+  appRoutes.nav.community.url(),
+  appRoutes.nav.contact.url(),
 ];
 
-const authLinks = Object.values(authRoutes).map((route) => route.url());
+const authLinks = Object.values(appRoutes.auth).map((route) => route.url());
 
 export default auth((req) => {
   const { nextUrl } = req;
@@ -30,6 +26,40 @@ export default auth((req) => {
 
   if (isApiAuthRoute) {
     return;
+  }
+
+  if (isLoggedIn) {
+    // biome-ignore lint/style/noNonNullAssertion: <>
+    const user = req.auth!.user;
+
+    const status = user.status;
+    const isProfileCreated = user.role !== "UNSPECIFIED";
+    const isDeleted = JSON.parse(user.isDeleted as unknown as string);
+
+    if (
+      !isProfileCreated &&
+      nextUrl.pathname !== appRoutes.profile.create.url()
+    ) {
+      return Response.redirect(
+        new URL(appRoutes.profile.create.url(), nextUrl),
+      );
+    }
+
+    if (
+      status !== "APPROVED" &&
+      !isPublicRoute &&
+      nextUrl.pathname !== appRoutes.profile.create.url()
+    ) {
+      return Response.redirect(new URL(appRoutes.nav.contact.url(), nextUrl));
+    }
+
+    if (
+      isDeleted &&
+      !isPublicRoute &&
+      nextUrl.pathname !== appRoutes.profile.create.url()
+    ) {
+      return Response.redirect(new URL(appRoutes.nav.contact.url(), nextUrl));
+    }
   }
 
   if (isAuthRoute) {
@@ -50,6 +80,7 @@ export default auth((req) => {
 
   if (!isLoggedIn && !isPublicRoute) {
     let callbackUrl = nextUrl.pathname;
+
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;
     }
@@ -58,7 +89,7 @@ export default auth((req) => {
 
     return Response.redirect(
       new URL(
-        `${authRoutes.signIn.url()}?callbackUrl=${encodedCallbackUrl}`,
+        `${appRoutes.auth.signIn.url()}?callbackUrl=${encodedCallbackUrl}`,
         nextUrl,
       ),
     );

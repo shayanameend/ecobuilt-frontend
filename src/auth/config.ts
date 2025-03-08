@@ -4,12 +4,12 @@ import type { DecodedUser } from "../../types";
 
 import Credentials from "next-auth/providers/credentials";
 
-import { authRoutes } from "~/lib/routes";
+import { appRoutes } from "~/lib/routes";
 
 const authConfig: NextAuthConfig = {
   pages: {
-    signIn: authRoutes.signIn.url(),
-    error: authRoutes.error.url(),
+    signIn: appRoutes.auth.signIn.url(),
+    error: appRoutes.auth.error.url(),
   },
   providers: [
     Credentials({

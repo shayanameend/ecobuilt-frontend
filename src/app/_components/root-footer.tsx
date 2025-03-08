@@ -13,17 +13,17 @@ import { assets } from "~/assets";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
-import { navRoutes } from "~/lib/routes";
+import { appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function RootFooter() {
-  const navLinks = Object.values({
-    home: {
-      label: "Home",
-      url: () => "/",
-    },
-    ...navRoutes,
-  });
+  const navLinks = [
+    appRoutes.nav.root,
+    appRoutes.nav.marketplace,
+    appRoutes.nav.vendors,
+    appRoutes.nav.community,
+    appRoutes.nav.contact,
+  ];
 
   const listingLinks = [
     {

@@ -24,7 +24,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
-import { apiRoutes, authRoutes } from "~/lib/routes";
+import { apiRoutes, appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 const SignInFormSchema = zod.object({
@@ -73,7 +73,9 @@ export function SignInSection() {
         case "OTP Sent Successfully!":
           sessionStorage.setItem("token", data.token);
 
-          router.push(`${authRoutes.verifyOtp.url()}?type=${OtpType.VERIFY}`);
+          router.push(
+            `${appRoutes.auth.verifyOtp.url()}?type=${OtpType.VERIFY}`,
+          );
           break;
         case "Sign In Successfull!":
           sessionStorage.removeItem("token");
@@ -142,7 +144,7 @@ export function SignInSection() {
                   <FormMessage />
                   <FormDescription className={cn("text-right")}>
                     <Link
-                      href={authRoutes.forgotPassword.url()}
+                      href={appRoutes.auth.forgotPassword.url()}
                       className={cn("underline underline-offset-4")}
                     >
                       Forgot password?
@@ -174,7 +176,7 @@ export function SignInSection() {
             >
               Don't have an account?{" "}
               <Link
-                href={authRoutes.signUp.url()}
+                href={appRoutes.auth.signUp.url()}
                 className={cn("text-primary")}
               >
                 Sign Up

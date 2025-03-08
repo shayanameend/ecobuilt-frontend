@@ -4,7 +4,7 @@ import { assets } from "~/assets";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { domine } from "~/lib/fonts";
-import { navRoutes } from "~/lib/routes";
+import { appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function WhySection() {
@@ -34,7 +34,7 @@ export function WhySection() {
           </p>
         </div>
         <div className={cn("space-x-4")}>
-          <Link href={navRoutes.marketplace.url()}>
+          <Link href={appRoutes.nav.marketplace.url()}>
             <Button variant="default" size="lg">
               Become a Buyer
             </Button>

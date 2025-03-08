@@ -1,4 +1,4 @@
-import type { DecodedUser } from "../../types";
+import type { DecodedUser } from "~/../types";
 
 import { default as NextAuth } from "next-auth";
 

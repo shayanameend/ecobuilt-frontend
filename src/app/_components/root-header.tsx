@@ -12,7 +12,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import { authRoutes, navRoutes } from "~/lib/routes";
+import { appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function RootHeader() {
@@ -20,13 +20,13 @@ export function RootHeader() {
 
   const pathname = usePathname();
 
-  const navLinks = Object.values({
-    home: {
-      label: "Home",
-      url: () => "/",
-    },
-    ...navRoutes,
-  });
+  const navLinks = [
+    appRoutes.nav.root,
+    appRoutes.nav.marketplace,
+    appRoutes.nav.vendors,
+    appRoutes.nav.community,
+    appRoutes.nav.contact,
+  ];
 
   return (
     <header className={cn("py-4 px-8 sticky top-0 z-10 bg-white")}>
@@ -92,7 +92,7 @@ export function RootHeader() {
             </Button>
           ) : (
             <Button className={cn("ml-4")}>
-              <Link href={authRoutes.signUp.url()}>Join Us</Link>
+              <Link href={appRoutes.auth.signUp.url()}>Join Us</Link>
             </Button>
           )}
         </ul>

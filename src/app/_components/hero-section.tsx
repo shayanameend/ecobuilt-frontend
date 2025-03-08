@@ -4,7 +4,7 @@ import { assets } from "~/assets";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import { domine } from "~/lib/fonts";
-import { navRoutes } from "~/lib/routes";
+import { appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function HeroSection() {
@@ -38,7 +38,7 @@ export function HeroSection() {
               Learn More
             </Button>
           </Link>
-          <Link href={navRoutes.marketplace.url()}>
+          <Link href={appRoutes.nav.marketplace.url()}>
             <Button variant="default" size="lg">
               Get Started
             </Button>

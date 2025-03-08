@@ -23,7 +23,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
-import { apiRoutes, authRoutes } from "~/lib/routes";
+import { apiRoutes, appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 const VerifyOtpFormSchema = zod.object({
@@ -98,7 +98,7 @@ export function VerifyOtpSection({ type }: { type: OtpType }) {
           createToken({ access: data.token, ...data.user });
           break;
         case "RESET":
-          router.push(authRoutes.updatePassword.url());
+          router.push(appRoutes.auth.updatePassword.url());
           break;
       }
     },

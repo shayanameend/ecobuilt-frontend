@@ -16,7 +16,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { domine } from "~/lib/fonts";
-import { navRoutes } from "~/lib/routes";
+import { appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function WhatSection() {
@@ -41,7 +41,7 @@ export function WhatSection() {
           </p>
         </div>
         <div className={cn("space-x-4")}>
-          <Link href={navRoutes.marketplace.url()}>
+          <Link href={appRoutes.nav.marketplace.url()}>
             <Button variant="default" size="lg">
               Go to Marketplace
             </Button>

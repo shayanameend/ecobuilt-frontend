@@ -20,7 +20,7 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { domine } from "~/lib/fonts";
-import { apiRoutes, authRoutes } from "~/lib/routes";
+import { apiRoutes, appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 const UpdatePasswordFormSchema = zod.object({
@@ -69,7 +69,7 @@ export function UpdatePasswordSection() {
 
       sessionStorage.removeItem("token");
 
-      router.push(authRoutes.signIn.url());
+      router.push(appRoutes.auth.signIn.url());
     },
     onError: (error) => {
       if (error instanceof AxiosError) {

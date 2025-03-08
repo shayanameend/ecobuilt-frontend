@@ -44,7 +44,7 @@ async function updatePassword({
     { password },
     {
       headers: {
-        authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     },
   );

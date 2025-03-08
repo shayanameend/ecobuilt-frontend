@@ -50,7 +50,7 @@ async function verifyOtp({
     { otp, type },
     {
       headers: {
-        authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     },
   );
@@ -68,7 +68,7 @@ async function resendOTP({
     { type },
     {
       headers: {
-        authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       },
     },
   );

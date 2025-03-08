@@ -7,6 +7,11 @@ import { Camera } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as zod from "zod";
+import { useSession } from "next-auth/react";
+import { useMutation } from "@tanstack/react-query";
+import { default as axios, AxiosError } from "axios";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -30,6 +35,7 @@ import { Textarea } from "~/components/ui/textarea";
 import { supportedCities, supportedRoles } from "~/lib/constants";
 import { domine } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
+import { apiRoutes, appRoutes } from "~/lib/routes";
 
 const CreateProfileFormSchema = zod
   .object({
@@ -121,8 +127,29 @@ const CreateProfileFormSchema = zod
     }
   });
 
+async function createProfile({
+  data,
+  token,
+}: {
+  data: FormData;
+  token: string;
+}) {
+  const response = await axios.post(apiRoutes.profile.root(), data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+}
+
 export function CreateProfileSection() {
+  const router = useRouter();
+
   const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const { data: session } = useSession();
 
   const form = useForm<zod.infer<typeof CreateProfileFormSchema>>({
     resolver: zodResolver(CreateProfileFormSchema),
@@ -142,18 +169,44 @@ export function CreateProfileSection() {
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+
     if (file) {
       form.setValue("picture", file);
 
       const reader = new FileReader();
+
       reader.onload = () => {
         setProfileImage(reader.result as string);
       };
+
       reader.readAsDataURL(file);
     }
   };
 
-  const onSubmit = async (data: zod.infer<typeof CreateProfileFormSchema>) => {
+  const createProfileMutation = useMutation({
+    mutationFn: (data: FormData) =>
+      createProfile({
+        data,
+        token: session?.user.access as string,
+      }),
+    onSuccess: ({ info }) => {
+      toast.success(info.message);
+
+      router.push(appRoutes.nav.root.url());
+    },
+    onError: (error) => {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.info.message);
+      }
+    },
+    onSettled: () => {
+      setProfileImage(null);
+
+      form.reset();
+    },
+  });
+
+  const onSubmit = (data: zod.infer<typeof CreateProfileFormSchema>) => {
     const formData = new FormData();
 
     // biome-ignore lint/complexity/noForEach: <>
@@ -167,7 +220,7 @@ export function CreateProfileSection() {
       }
     });
 
-    console.log({ data });
+    createProfileMutation.mutate(formData);
   };
 
   return (

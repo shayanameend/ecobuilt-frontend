@@ -1,11 +1,8 @@
-import { default as axios } from "axios";
-
+import { Role, UserStatus } from "~/../types";
 import { auth } from "~/auth";
-import { updateToken } from "~/auth/server";
-import { apiRoutes, appRoutes } from "~/lib/routes";
+import { appRoutes } from "~/lib/routes";
 
 const DEFAULT_LOGIN_REDIRECT = "/";
-
 const API_AUTH_PREFIX = "/api/auth";
 
 const publicLinks = [
@@ -32,86 +29,67 @@ export default auth(async (req) => {
   }
 
   if (isLoggedIn) {
-    const response = await axios.post(
-      apiRoutes.auth.refreshToken(),
-      {},
-      {
-        headers: {
-          // biome-ignore lint/style/noNonNullAssertion: <>
-          Authorization: `Bearer ${req.auth!.user.access}`,
-        },
-      },
-    );
+    // biome-ignore lint/style/noNonNullAssertion: <>
+    const user = req.auth!.user;
 
-    const { data } = response.data;
+    const status = user.status;
+    const role = user.role;
+    const isDeleted = JSON.parse(
+      user.isDeleted as unknown as string,
+    ) as boolean;
 
-    updateToken({ access: data.token, ...data.user });
+    const isApproved = status === UserStatus.APPROVED;
+    const isProfileCreated = role !== Role.UNSPECIFIED;
+    const onProfileCreatePage =
+      nextUrl.pathname === appRoutes.profile.create.url();
 
-    const status = data.user.status;
-    const isProfileCreated = data.user.role !== "UNSPECIFIED";
-    const isDeleted = data.user.isDeleted;
-
-    if (
-      isProfileCreated &&
-      nextUrl.pathname === appRoutes.profile.create.url()
-    ) {
+    if (isProfileCreated && onProfileCreatePage) {
       return Response.redirect(new URL(appRoutes.nav.root.url(), nextUrl));
     }
 
-    if (
-      !isProfileCreated &&
-      nextUrl.pathname !== appRoutes.profile.create.url()
-    ) {
+    if (!isProfileCreated && !onProfileCreatePage) {
       return Response.redirect(
         new URL(appRoutes.profile.create.url(), nextUrl),
       );
     }
 
-    if (
-      status !== "APPROVED" &&
-      !isPublicRoute &&
-      nextUrl.pathname !== appRoutes.profile.create.url()
-    ) {
+    const shouldRedirectToContact =
+      !isPublicRoute && !onProfileCreatePage && (!isApproved || isDeleted);
+
+    if (shouldRedirectToContact) {
       return Response.redirect(new URL(appRoutes.nav.contact.url(), nextUrl));
     }
 
-    if (
-      isDeleted &&
-      !isPublicRoute &&
-      nextUrl.pathname !== appRoutes.profile.create.url()
-    ) {
-      return Response.redirect(new URL(appRoutes.nav.contact.url(), nextUrl));
-    }
-  }
-
-  if (isAuthRoute) {
-    if (isLoggedIn) {
+    if (isAuthRoute) {
       const callbackUrl = nextUrl.searchParams.get("callbackUrl");
 
-      if (callbackUrl) {
-        return Response.redirect(
-          new URL(decodeURIComponent(callbackUrl), nextUrl),
-        );
-      }
-
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      return Response.redirect(
+        new URL(
+          callbackUrl
+            ? decodeURIComponent(callbackUrl)
+            : DEFAULT_LOGIN_REDIRECT,
+          nextUrl,
+        ),
+      );
     }
 
     return;
   }
 
-  if (!isLoggedIn && !isPublicRoute) {
+  if (isAuthRoute) {
+    return;
+  }
+
+  if (!isPublicRoute) {
     let callbackUrl = nextUrl.pathname;
 
     if (nextUrl.search) {
       callbackUrl += nextUrl.search;
     }
 
-    const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-
     return Response.redirect(
       new URL(
-        `${appRoutes.auth.signIn.url()}?callbackUrl=${encodedCallbackUrl}`,
+        `${appRoutes.auth.signIn.url()}?callbackUrl=${encodeURIComponent(callbackUrl)}`,
         nextUrl,
       ),
     );

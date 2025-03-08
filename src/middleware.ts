@@ -1,5 +1,8 @@
+import { default as axios } from "axios";
+
 import { auth } from "~/auth";
-import { appRoutes } from "~/lib/routes";
+import { updateToken } from "~/auth/server";
+import { apiRoutes, appRoutes } from "~/lib/routes";
 
 const DEFAULT_LOGIN_REDIRECT = "/";
 
@@ -15,7 +18,7 @@ const publicLinks = [
 
 const authLinks = Object.values(appRoutes.auth).map((route) => route.url());
 
-export default auth((req) => {
+export default auth(async (req) => {
   const { nextUrl } = req;
 
   const isLoggedIn = !!req.auth;
@@ -29,12 +32,31 @@ export default auth((req) => {
   }
 
   if (isLoggedIn) {
-    // biome-ignore lint/style/noNonNullAssertion: <>
-    const user = req.auth!.user;
+    const response = await axios.post(
+      apiRoutes.auth.refreshToken(),
+      {},
+      {
+        headers: {
+          // biome-ignore lint/style/noNonNullAssertion: <>
+          Authorization: `Bearer ${req.auth!.user.access}`,
+        },
+      },
+    );
 
-    const status = user.status;
-    const isProfileCreated = user.role !== "UNSPECIFIED";
-    const isDeleted = JSON.parse(user.isDeleted as unknown as string);
+    const { data } = response.data;
+
+    updateToken({ access: data.token, ...data.user });
+
+    const status = data.user.status;
+    const isProfileCreated = data.user.role !== "UNSPECIFIED";
+    const isDeleted = data.user.isDeleted;
+
+    if (
+      isProfileCreated &&
+      nextUrl.pathname === appRoutes.profile.create.url()
+    ) {
+      return Response.redirect(new URL(appRoutes.nav.root.url(), nextUrl));
+    }
 
     if (
       !isProfileCreated &&

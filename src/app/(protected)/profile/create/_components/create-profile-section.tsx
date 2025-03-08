@@ -3,15 +3,15 @@
 import type { ChangeEvent } from "react";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { AxiosError, default as axios } from "axios";
 import { Camera } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as zod from "zod";
-import { useSession } from "next-auth/react";
-import { useMutation } from "@tanstack/react-query";
-import { default as axios, AxiosError } from "axios";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import * as zod from "zod";
 
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
@@ -34,8 +34,8 @@ import {
 import { Textarea } from "~/components/ui/textarea";
 import { supportedCities, supportedRoles } from "~/lib/constants";
 import { domine } from "~/lib/fonts";
-import { cn } from "~/lib/utils";
 import { apiRoutes, appRoutes } from "~/lib/routes";
+import { cn } from "~/lib/utils";
 
 const CreateProfileFormSchema = zod
   .object({

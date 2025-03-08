@@ -8,9 +8,9 @@ import { RootHeader } from "~/app/_components/root-header";
 import { Button } from "~/components/ui/button";
 import { openSans } from "~/lib/fonts";
 import { cn } from "~/lib/utils";
+import { RootProvider } from "./_components/root-provider";
 
 import "~/styles/globals.css";
-import { RootProvider } from "./_components/root-provider";
 
 export const metadata: Metadata = {
   title: "EcoBuiltConnect",

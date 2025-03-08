@@ -147,7 +147,9 @@ async function createProfile({
 export function CreateProfileSection() {
   const router = useRouter();
 
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<string | undefined>(
+    undefined,
+  );
 
   const { data: session } = useSession();
 
@@ -200,7 +202,7 @@ export function CreateProfileSection() {
       }
     },
     onSettled: () => {
-      setProfileImage(null);
+      setProfileImage(undefined);
 
       form.reset();
     },
@@ -248,7 +250,7 @@ export function CreateProfileSection() {
           >
             <div className="relative group">
               <Avatar className={cn("size-32 border-2 border-primary/20")}>
-                <AvatarImage src={profileImage || ""} />
+                <AvatarImage src={profileImage} />
                 <AvatarFallback>
                   {form.watch("name")
                     ? form

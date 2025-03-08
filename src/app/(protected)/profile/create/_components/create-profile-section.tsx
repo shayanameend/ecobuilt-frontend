@@ -5,7 +5,7 @@ import type { ChangeEvent } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError, default as axios } from "axios";
-import { Camera } from "lucide-react";
+import { Camera, Loader2Icon } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -495,8 +495,17 @@ export function CreateProfileSection() {
             </>
           )}
           <div className={cn("space-x-4")}>
-            <Button variant="default" size="lg" className={cn("w-full")}>
-              Create Profile
+            <Button
+              variant="default"
+              size="lg"
+              className={cn("w-full")}
+              type="submit"
+              disabled={createProfileMutation.isPending}
+            >
+              {createProfileMutation.isPending && (
+                <Loader2Icon className={cn("animate-spin")} />
+              )}
+              <span>Create Profile</span>
             </Button>
           </div>
         </form>

@@ -54,7 +54,10 @@ export default auth(async (req) => {
     }
 
     const shouldRedirectToContact =
-      !isPublicRoute && !onProfileCreatePage && (!isApproved || isDeleted);
+      !isAuthRoute &&
+      !isPublicRoute &&
+      !onProfileCreatePage &&
+      (!isApproved || isDeleted);
 
     if (shouldRedirectToContact) {
       return Response.redirect(new URL(appRoutes.nav.contact.url(), nextUrl));

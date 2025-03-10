@@ -30,13 +30,13 @@ const SORT_OPTIONS = [
 ];
 
 export function MarketplaceSection() {
-  const [category, setCategory] = useState("");
-  const [vendor, setVendor] = useState("");
+  const [categoryId, setCategory] = useState("");
+  const [vendorId, setVendor] = useState("");
   const [sort, setSort] = useState(SORT_OPTIONS[0].value);
-  const [search, setSearch] = useState("");
+  const [name, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
-  const [min, setMin] = useState("");
-  const [max, setMax] = useState("");
+  const [minPrice, setMin] = useState("");
+  const [maxPrice, setMax] = useState("");
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [showAllVendors, setShowAllVendors] = useState(false);
 
@@ -73,24 +73,30 @@ export function MarketplaceSection() {
       products: ProductType[];
     };
   }>({
-    queryKey: ["products", category, vendor, sort, search, min, max],
+    queryKey: [
+      "products",
+      categoryId,
+      vendorId,
+      sort,
+      name,
+      minPrice,
+      maxPrice,
+    ],
     queryFn: async () => {
       const params = new URLSearchParams();
 
-      if (category) params.set("category", category);
-      if (vendor) params.set("vendor", vendor);
       if (sort) params.set("sort", sort);
-      if (search) params.set("search", search);
-      if (min) params.set("min", min);
-      if (max) params.set("max", max);
+      if (name) params.set("name", name);
+      if (minPrice) params.set("minPrice", minPrice);
+      if (maxPrice) params.set("maxPrice", maxPrice);
+      if (categoryId) params.set("categoryId", categoryId);
+      if (vendorId) params.set("vendorId", vendorId);
 
       const queryString = params.toString();
 
       const url = queryString
         ? `${apiRoutes.product.root()}?${queryString}`
         : apiRoutes.product.root();
-
-      console.log(url);
 
       const response = await axios.get(url);
 
@@ -102,12 +108,12 @@ export function MarketplaceSection() {
     ? categoriesResponse.data.categories
     : categoriesResponse.data.categories.slice(0, 5);
 
-  const handleCategoryClick = (categoryId: string) => {
-    setCategory(category === categoryId ? "" : categoryId);
+  const handleCategoryClick = (category: string) => {
+    setCategory(categoryId === category ? "" : category);
   };
 
-  const handleVendorClick = (vendorId: string) => {
-    setVendor(vendor === vendorId ? "" : vendorId);
+  const handleVendorClick = (vendor: string) => {
+    setVendor(vendorId === vendor ? "" : vendor);
   };
 
   const handleSearch = (event: FormEvent) => {
@@ -120,8 +126,8 @@ export function MarketplaceSection() {
   };
 
   const applyPriceFilter = () => {
-    setMin(min);
-    setMax(max);
+    setMin(minPrice);
+    setMax(maxPrice);
   };
 
   const resetPriceFilter = () => {
@@ -143,7 +149,7 @@ export function MarketplaceSection() {
                     onClick={() => handleCategoryClick(cat.id)}
                     className={cn(
                       "text-muted-foreground hover:text-foreground transition-colors duration-200",
-                      category === cat.id && "font-bold text-foreground",
+                      categoryId === cat.id && "font-bold text-foreground",
                     )}
                   >
                     {cat.name}
@@ -179,7 +185,7 @@ export function MarketplaceSection() {
                   type="number"
                   placeholder="Min"
                   className="h-8 text-sm"
-                  value={min}
+                  value={minPrice}
                   onChange={(e) => setMin(e.target.value)}
                   min="0"
                 />
@@ -188,9 +194,9 @@ export function MarketplaceSection() {
                   type="number"
                   placeholder="Max"
                   className="h-8 text-sm"
-                  value={max}
+                  value={maxPrice}
                   onChange={(e) => setMax(e.target.value)}
-                  min={min || "0"}
+                  min={minPrice || "0"}
                 />
               </div>
               <div className="flex gap-2">
@@ -224,9 +230,9 @@ export function MarketplaceSection() {
             <h2
               className={cn("text-3xl md:text-4xl font-bold", domine.className)}
             >
-              {category
+              {categoryId
                 ? categoriesResponse.data.categories.find(
-                    (cat) => cat.id === category,
+                    (cat) => cat.id === categoryId,
                   )?.name
                 : "Marketplace"}
             </h2>
@@ -258,11 +264,11 @@ export function MarketplaceSection() {
           >
             <p>
               Showing {productsResponse.data.products.length} results
-              {(min || max) && (
+              {(minPrice || maxPrice) && (
                 <span className="ml-1">
-                  {min && `from $${min}`}
-                  {min && max && " "}
-                  {max && `to $${max}`}
+                  {minPrice && `from $${minPrice}`}
+                  {minPrice && maxPrice && " "}
+                  {maxPrice && `to $${maxPrice}`}
                 </span>
               )}
             </p>

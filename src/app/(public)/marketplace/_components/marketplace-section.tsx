@@ -271,7 +271,11 @@ export function MarketplaceSection() {
             <h2
               className={cn("text-3xl md:text-4xl font-bold", domine.className)}
             >
-              Building Supplies
+              {currentCategory
+                ? categoriesResponse.data.categories.find(
+                    (category) => category.id === currentCategory,
+                  )?.name
+                : "Marketplace"}
             </h2>
           </div>
           <form

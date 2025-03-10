@@ -86,8 +86,6 @@ export function MarketplaceSection() {
     },
   });
 
-  console.log(productsResponse.data.products);
-
   const limitedCategories = showAllCategories
     ? categoriesResponse.data.categories
     : categoriesResponse.data.categories.slice(0, 5);

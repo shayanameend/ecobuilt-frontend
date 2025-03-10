@@ -6,7 +6,13 @@ import type { CategoryType, ProductType } from "~/../types";
 
 import { useQuery } from "@tanstack/react-query";
 import { default as axios } from "axios";
-import { ChevronDown, ChevronUp, SearchIcon } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  SearchIcon,
+  PackageOpen,
+  Loader2,
+} from "lucide-react";
 import { useState } from "react";
 
 import { Product } from "~/app/(public)/marketplace/_components/product";
@@ -22,6 +28,7 @@ import {
 import { domine } from "~/lib/fonts";
 import { apiRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
+import { Skeleton } from "~/components/ui/skeleton";
 
 const SORT_OPTIONS = [
   { value: "POPULARITY", label: "Popularity" },
@@ -49,6 +56,7 @@ export function MarketplaceSection() {
         categories: [],
       },
     },
+    isLoading: categoriesLoading,
   } = useQuery<{
     data: {
       categories: CategoryType[];
@@ -68,6 +76,8 @@ export function MarketplaceSection() {
         products: [],
       },
     },
+    isLoading: productsLoading,
+    isFetching: productsFetching,
   } = useQuery<{
     data: {
       products: ProductType[];
@@ -141,41 +151,55 @@ export function MarketplaceSection() {
         <nav className={cn("space-y-6")}>
           <div>
             <h3 className={cn("text-base font-semibold mb-3")}>Categories</h3>
-            <ul className="space-y-1.5 text-sm">
-              {limitedCategories.map((cat) => (
-                <li key={cat.id}>
-                  <button
-                    type="button"
-                    onClick={() => handleCategoryClick(cat.id)}
-                    className={cn(
-                      "text-muted-foreground hover:text-foreground transition-colors duration-200",
-                      categoryId === cat.id && "font-bold text-foreground",
-                    )}
-                  >
-                    {cat.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-            {categoriesResponse.data.categories.length > 5 && (
-              <Button
-                variant="ghost"
-                className="flex items-center gap-1 text-xs mt-2 -ml-1 p-0 px-1 h-auto text-muted-foreground hover:text-foreground"
-                onClick={toggleCategories}
-              >
-                {showAllCategories ? (
-                  <>
-                    <span>Show Less</span>
-                    <ChevronUp className="h-4 w-4 mt-0.5" />
-                  </>
-                ) : (
-                  <>
-                    <span>Show More</span>
-                    <ChevronDown className="h-4 w-4 mt-0.5" />
-                  </>
-                )}
-              </Button>
+            {categoriesLoading ? (
+              <div className="space-y-2">
+                {[...Array(5)].map((_, index) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: <>
+                  <Skeleton key={index} className="h-5 w-full" />
+                ))}
+              </div>
+            ) : limitedCategories.length > 0 ? (
+              <ul className="space-y-1.5 text-sm">
+                {limitedCategories.map((cat) => (
+                  <li key={cat.id}>
+                    <button
+                      type="button"
+                      onClick={() => handleCategoryClick(cat.id)}
+                      className={cn(
+                        "text-muted-foreground hover:text-foreground transition-colors duration-200",
+                        categoryId === cat.id && "font-bold text-foreground",
+                      )}
+                    >
+                      {cat.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No categories available
+              </p>
             )}
+            {!categoriesLoading &&
+              categoriesResponse.data.categories.length > 5 && (
+                <Button
+                  variant="ghost"
+                  className="flex items-center gap-1 text-xs mt-2 -ml-1 p-0 px-1 h-auto text-muted-foreground hover:text-foreground"
+                  onClick={toggleCategories}
+                >
+                  {showAllCategories ? (
+                    <>
+                      <span>Show Less</span>
+                      <ChevronUp className="h-4 w-4 mt-0.5" />
+                    </>
+                  ) : (
+                    <>
+                      <span>Show More</span>
+                      <ChevronDown className="h-4 w-4 mt-0.5" />
+                    </>
+                  )}
+                </Button>
+              )}
           </div>
           <div>
             <h3 className={cn("text-base font-semibold mb-3")}>Price</h3>
@@ -188,6 +212,7 @@ export function MarketplaceSection() {
                   value={minPrice}
                   onChange={(e) => setMin(e.target.value)}
                   min="0"
+                  disabled={productsLoading}
                 />
                 <span className="text-muted-foreground">-</span>
                 <Input
@@ -197,6 +222,7 @@ export function MarketplaceSection() {
                   value={maxPrice}
                   onChange={(e) => setMax(e.target.value)}
                   min={minPrice || "0"}
+                  disabled={productsLoading}
                 />
               </div>
               <div className="flex gap-2">
@@ -205,6 +231,7 @@ export function MarketplaceSection() {
                   size="sm"
                   variant="outline"
                   className="text-xs"
+                  disabled={productsLoading || (!minPrice && !maxPrice)}
                 >
                   Reset
                 </Button>
@@ -212,6 +239,7 @@ export function MarketplaceSection() {
                   onClick={applyPriceFilter}
                   size="sm"
                   className="text-xs flex-1"
+                  disabled={productsLoading}
                 >
                   Apply
                 </Button>
@@ -227,15 +255,22 @@ export function MarketplaceSection() {
           )}
         >
           <div className={cn("flex-[2]")}>
-            <h2
-              className={cn("text-3xl md:text-4xl font-bold", domine.className)}
-            >
-              {categoryId
-                ? categoriesResponse.data.categories.find(
-                    (cat) => cat.id === categoryId,
-                  )?.name
-                : "Marketplace"}
-            </h2>
+            {categoriesLoading ? (
+              <Skeleton className="h-10 w-64" />
+            ) : (
+              <h2
+                className={cn(
+                  "text-3xl md:text-4xl font-bold",
+                  domine.className,
+                )}
+              >
+                {categoryId
+                  ? categoriesResponse.data.categories.find(
+                      (cat) => cat.id === categoryId,
+                    )?.name
+                  : "Marketplace"}
+              </h2>
+            )}
           </div>
           <form
             onSubmit={handleSearch}
@@ -250,9 +285,14 @@ export function MarketplaceSection() {
               className={cn(
                 "border-none focus-visible:ring-0 focus-visible:ring-offset-0",
               )}
+              disabled={productsLoading}
             />
-            <Button type="submit" size="icon">
-              <SearchIcon size={24} />
+            <Button type="submit" size="icon" disabled={productsLoading}>
+              {productsFetching && !productsLoading ? (
+                <Loader2 size={24} className="animate-spin" />
+              ) : (
+                <SearchIcon size={24} />
+              )}
             </Button>
           </form>
         </div>
@@ -262,17 +302,25 @@ export function MarketplaceSection() {
               "flex justify-between items-center gap-4 text-foreground/65 text-sm font-medium",
             )}
           >
-            <p>
-              Showing {productsResponse.data.products.length} results
-              {(minPrice || maxPrice) && (
-                <span className="ml-1">
-                  {minPrice && `from $${minPrice}`}
-                  {minPrice && maxPrice && " "}
-                  {maxPrice && `to $${maxPrice}`}
-                </span>
-              )}
-            </p>
-            <Select value={sort} onValueChange={handleSortChange}>
+            {productsLoading ? (
+              <Skeleton className="h-5 w-48" />
+            ) : (
+              <p>
+                Showing {productsResponse.data.products.length} results
+                {(minPrice || maxPrice) && (
+                  <span className="ml-1">
+                    {minPrice && `from $${minPrice}`}
+                    {minPrice && maxPrice && " "}
+                    {maxPrice && `to $${maxPrice}`}
+                  </span>
+                )}
+              </p>
+            )}
+            <Select
+              value={sort}
+              onValueChange={handleSortChange}
+              disabled={productsLoading}
+            >
               <SelectTrigger
                 className={cn(
                   "w-32 border-none focus:ring-0 focus:ring-offset-0",
@@ -289,15 +337,57 @@ export function MarketplaceSection() {
               </SelectContent>
             </Select>
           </div>
-          <div
-            className={cn(
-              "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8",
-            )}
-          >
-            {productsResponse.data.products.map((product) => (
-              <Product key={product.id} product={product} />
-            ))}
-          </div>
+          {productsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
+              {[...Array(6)].map((_, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: <>
+                <div key={index} className="space-y-3">
+                  <Skeleton className="h-48 w-full" />
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : productsResponse.data.products.length > 0 ? (
+            <div
+              className={cn(
+                "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8",
+              )}
+            >
+              {productsResponse.data.products.map((product) => (
+                <Product key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <PackageOpen className="h-16 w-16 text-muted-foreground mb-4" />
+              <h3 className="text-xl font-medium mb-2">No products found</h3>
+              <p className="text-muted-foreground mb-6 max-w-md">
+                We couldn't find any products matching your criteria. Try
+                adjusting your filters or search terms.
+              </p>
+              <Button
+                onClick={() => {
+                  setCategory("");
+                  setVendor("");
+                  setSearch("");
+                  setSearchInput("");
+                  setMin("");
+                  setMax("");
+                  setSort(SORT_OPTIONS[0].value);
+                }}
+                variant="outline"
+              >
+                Reset all filters
+              </Button>
+            </div>
+          )}
+          {productsFetching && !productsLoading && (
+            <div className="flex justify-center py-4">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          )}
         </div>
       </section>
     </>

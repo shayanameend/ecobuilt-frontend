@@ -1,15 +1,3 @@
-type DecodedUser = {
-  access: string;
-  id: string;
-  email: string;
-  status: UserStatus;
-  role: Role;
-  isVerified: boolean;
-  isDeleted: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
 enum Role {
   UNSPECIFIED = "UNSPECIFIED",
   SUPER_ADMIN = "SUPER_ADMIN",
@@ -45,6 +33,43 @@ enum OrderStatus {
   DELIVERED = "DELIVERED",
 }
 
-export type { DecodedUser };
+type DecodedUser = {
+  access: string;
+  id: string;
+  email: string;
+  status: UserStatus;
+  role: Role;
+  isVerified: boolean;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type CategoryType = {
+  id: string;
+  name: string;
+  status: CategoryStatus;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+type ProductType = {
+  id: string;
+  pictureIds: string[];
+  name: string;
+  description: string;
+  sku: string;
+  stock: number;
+  price: number;
+  salePrice: number;
+  isDeleted: boolean;
+  categoryId: string;
+  vendorId: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type { DecodedUser, CategoryType, ProductType };
 
 export { Role, UserStatus, OtpType, CategoryStatus, OrderStatus };

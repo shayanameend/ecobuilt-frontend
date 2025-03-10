@@ -2,17 +2,16 @@
 
 import type { FormEvent } from "react";
 
+import type { CategoryType, ProductType } from "~/../types";
+
+import { useQuery } from "@tanstack/react-query";
+import { default as axios } from "axios";
 import { ChevronDown, ChevronUp, SearchIcon } from "lucide-react";
 import { default as Link } from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
-import {
-  Product,
-  categories,
-  products,
-  vendors,
-} from "~/app/(public)/marketplace/_components/product";
+import { Product } from "~/app/(public)/marketplace/_components/product";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import {
@@ -23,6 +22,7 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { domine } from "~/lib/fonts";
+import { apiRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function MarketplaceSection() {
@@ -46,10 +46,52 @@ export function MarketplaceSection() {
   const toggleCategories = () => setShowAllCategories(!showAllCategories);
   const toggleVendors = () => setShowAllVendors(!showAllVendors);
 
+  const {
+    data: categoriesResponse = {
+      data: {
+        categories: [],
+      },
+    },
+  } = useQuery<{
+    data: {
+      categories: CategoryType[];
+    };
+  }>({
+    queryKey: ["categories"],
+    queryFn: async () => {
+      const response = await axios.get(apiRoutes.category.root());
+
+      return response.data;
+    },
+  });
+
+  const {
+    data: productsResponse = {
+      data: {
+        products: [],
+      },
+    },
+  } = useQuery<{
+    data: {
+      products: ProductType[];
+    };
+  }>({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const response = await axios.get(apiRoutes.product.root(), {
+        params: searchParams,
+      });
+
+      return response.data;
+    },
+  });
+
+  console.log(productsResponse.data.products);
+
   const limitedCategories = showAllCategories
-    ? categories
-    : categories.slice(0, 5);
-  const limitedVendors = showAllVendors ? vendors : vendors.slice(0, 5);
+    ? categoriesResponse.data.categories
+    : categoriesResponse.data.categories.slice(0, 5);
+  // const limitedVendors = showAllVendors ? vendors : vendors.slice(0, 5);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -64,8 +106,8 @@ export function MarketplaceSection() {
     [searchParams],
   );
 
-  const handleSearch = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSearch = (event: FormEvent) => {
+    event.preventDefault();
     const params = new URLSearchParams(searchParams.toString());
     params.set("search", searchInput);
     params.delete("page");
@@ -120,7 +162,7 @@ export function MarketplaceSection() {
                 </li>
               ))}
             </ul>
-            {categories.length > 5 && (
+            {categoriesResponse.data.categories.length > 5 && (
               <Button
                 variant="ghost"
                 className="flex items-center gap-1 text-xs mt-2 -ml-1 p-0 px-1 h-auto text-muted-foreground hover:text-foreground"
@@ -140,7 +182,7 @@ export function MarketplaceSection() {
               </Button>
             )}
           </div>
-          <div>
+          {/* <div>
             <h3 className={cn("text-base font-semibold mb-3")}>Vendors</h3>
             <ul className="space-y-1.5 text-sm">
               {limitedVendors.map((vendor) => (
@@ -177,7 +219,7 @@ export function MarketplaceSection() {
                 )}
               </Button>
             )}
-          </div>
+          </div> */}
           <div>
             <h3 className={cn("text-base font-semibold mb-3")}>Price</h3>
             <div className="space-y-3 -ml-2">
@@ -260,7 +302,7 @@ export function MarketplaceSection() {
             )}
           >
             <p>
-              Showing {products.length} results
+              Showing {productsResponse.data.products.length} results
               {(currentMin || currentMax) && (
                 <span className="ml-1">
                   {currentMin && `from $${currentMin}`}
@@ -290,7 +332,7 @@ export function MarketplaceSection() {
               "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8",
             )}
           >
-            {products.map((product) => (
+            {productsResponse.data.products.map((product) => (
               <Product key={product.id} product={product} />
             ))}
           </div>

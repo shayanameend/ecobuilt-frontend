@@ -80,6 +80,15 @@ const apiRoutes = {
   profile: {
     root: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/profile`,
   },
+  category: {
+    root: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/category`,
+  },
+  vendor: {
+    root: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/vendor`,
+  },
+  product: {
+    root: () => `${process.env.NEXT_PUBLIC_BACKEND_URL}/product`,
+  },
 };
 
 export { appRoutes, apiRoutes };

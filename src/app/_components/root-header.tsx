@@ -3,7 +3,7 @@
 import { ShoppingCartIcon } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { default as Link } from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { assets } from "~/assets";
 import { Button } from "~/components/ui/button";
@@ -16,9 +16,10 @@ import { appRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
 export function RootHeader() {
-  const { data: session } = useSession();
-
   const pathname = usePathname();
+  const router = useRouter();
+
+  const { data: session } = useSession();
 
   const navLinks = [
     appRoutes.nav.root,
@@ -85,10 +86,20 @@ export function RootHeader() {
               size="sm"
               variant="secondary"
               onClick={async () => {
-                await signOut();
+                if (pathname.includes(appRoutes.dashboard.root.url())) {
+                  await signOut();
+                } else {
+                  router.push(
+                    appRoutes.dashboard.dynamic.url(
+                      session.user.role.toLocaleLowerCase(),
+                    ),
+                  );
+                }
               }}
             >
-              Sign Out
+              {pathname.includes(appRoutes.dashboard.root.url())
+                ? "Sign Out"
+                : "Dashboard"}
             </Button>
           ) : (
             <Button className={cn("ml-4")}>

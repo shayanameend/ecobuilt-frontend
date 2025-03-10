@@ -21,6 +21,16 @@ const appRoutes = {
       url: () => "/contact",
     },
   },
+  dashboard: {
+    root: {
+      label: "Dashboard",
+      url: () => "/dashboard",
+    },
+    dynamic: {
+      label: "Dashboard",
+      url: (role: string) => `/dashboard/${role}`,
+    },
+  },
   auth: {
     signUp: {
       label: "Sign Up",

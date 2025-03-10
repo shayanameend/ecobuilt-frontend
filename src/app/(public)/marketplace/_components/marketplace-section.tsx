@@ -7,9 +7,7 @@ import type { CategoryType, ProductType } from "~/../types";
 import { useQuery } from "@tanstack/react-query";
 import { default as axios } from "axios";
 import { ChevronDown, ChevronUp, SearchIcon } from "lucide-react";
-import { default as Link } from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 import { Product } from "~/app/(public)/marketplace/_components/product";
 import { Button } from "~/components/ui/button";
@@ -25,21 +23,20 @@ import { domine } from "~/lib/fonts";
 import { apiRoutes } from "~/lib/routes";
 import { cn } from "~/lib/utils";
 
+const SORT_OPTIONS = [
+  { value: "POPULARITY", label: "Popularity" },
+  { value: "LATEST", label: "Latest" },
+  { value: "OLDEST", label: "Oldest" },
+];
+
 export function MarketplaceSection() {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const currentCategory = searchParams.get("category") || "";
-  const currentVendor = searchParams.get("vendor") || "";
-  const currentSort = searchParams.get("sort") || "relevance";
-  const currentSearch = searchParams.get("search") || "";
-  const currentMin = searchParams.get("min") || "";
-  const currentMax = searchParams.get("max") || "";
-
-  const [searchInput, setSearchInput] = useState(currentSearch);
-  const [min, setMin] = useState(currentMin);
-  const [max, setMax] = useState(currentMax);
+  const [category, setCategory] = useState("");
+  const [vendor, setVendor] = useState("");
+  const [sort, setSort] = useState(SORT_OPTIONS[0].value);
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [min, setMin] = useState("");
+  const [max, setMax] = useState("");
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [showAllVendors, setShowAllVendors] = useState(false);
 
@@ -76,11 +73,26 @@ export function MarketplaceSection() {
       products: ProductType[];
     };
   }>({
-    queryKey: ["products"],
+    queryKey: ["products", category, vendor, sort, search, min, max],
     queryFn: async () => {
-      const response = await axios.get(apiRoutes.product.root(), {
-        params: searchParams,
-      });
+      const params = new URLSearchParams();
+
+      if (category) params.set("category", category);
+      if (vendor) params.set("vendor", vendor);
+      if (sort) params.set("sort", sort);
+      if (search) params.set("search", search);
+      if (min) params.set("min", min);
+      if (max) params.set("max", max);
+
+      const queryString = params.toString();
+
+      const url = queryString
+        ? `${apiRoutes.product.root()}?${queryString}`
+        : apiRoutes.product.root();
+
+      console.log(url);
+
+      const response = await axios.get(url);
 
       return response.data;
     },
@@ -89,53 +101,32 @@ export function MarketplaceSection() {
   const limitedCategories = showAllCategories
     ? categoriesResponse.data.categories
     : categoriesResponse.data.categories.slice(0, 5);
-  // const limitedVendors = showAllVendors ? vendors : vendors.slice(0, 5);
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      if (value) {
-        params.set(name, value);
-      } else {
-        params.delete(name);
-      }
-      return params.toString();
-    },
-    [searchParams],
-  );
+  const handleCategoryClick = (categoryId: string) => {
+    setCategory(category === categoryId ? "" : categoryId);
+  };
+
+  const handleVendorClick = (vendorId: string) => {
+    setVendor(vendor === vendorId ? "" : vendorId);
+  };
 
   const handleSearch = (event: FormEvent) => {
     event.preventDefault();
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("search", searchInput);
-    params.delete("page");
-    router.push(`${pathname}?${params.toString()}`);
+    setSearch(searchInput);
   };
 
   const handleSortChange = (value: string) => {
-    router.push(`${pathname}?${createQueryString("sort", value)}`);
+    setSort(value);
   };
 
   const applyPriceFilter = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (min) params.set("min", min);
-    else params.delete("min");
-
-    if (max) params.set("max", max);
-    else params.delete("max");
-
-    params.delete("page");
-    router.push(`${pathname}?${params.toString()}`);
+    setMin(min);
+    setMax(max);
   };
 
   const resetPriceFilter = () => {
     setMin("");
     setMax("");
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete("min");
-    params.delete("max");
-    params.delete("page");
-    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (
@@ -145,18 +136,18 @@ export function MarketplaceSection() {
           <div>
             <h3 className={cn("text-base font-semibold mb-3")}>Categories</h3>
             <ul className="space-y-1.5 text-sm">
-              {limitedCategories.map((category) => (
-                <li key={category.id}>
-                  <Link
-                    href={`${pathname}?${createQueryString("category", currentCategory === category.id ? "" : category.id)}`}
+              {limitedCategories.map((cat) => (
+                <li key={cat.id}>
+                  <button
+                    type="button"
+                    onClick={() => handleCategoryClick(cat.id)}
                     className={cn(
                       "text-muted-foreground hover:text-foreground transition-colors duration-200",
-                      currentCategory === category.id &&
-                        "font-bold text-foreground",
+                      category === cat.id && "font-bold text-foreground",
                     )}
                   >
-                    {category.name}
-                  </Link>
+                    {cat.name}
+                  </button>
                 </li>
               ))}
             </ul>
@@ -180,44 +171,6 @@ export function MarketplaceSection() {
               </Button>
             )}
           </div>
-          {/* <div>
-            <h3 className={cn("text-base font-semibold mb-3")}>Vendors</h3>
-            <ul className="space-y-1.5 text-sm">
-              {limitedVendors.map((vendor) => (
-                <li key={vendor.id}>
-                  <Link
-                    href={`${pathname}?${createQueryString("vendor", currentVendor === vendor.id ? "" : vendor.id)}`}
-                    className={cn(
-                      "text-muted-foreground hover:text-foreground transition-colors duration-200",
-                      currentVendor === vendor.id &&
-                        "font-bold text-foreground",
-                    )}
-                  >
-                    {vendor.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            {vendors.length > 5 && (
-              <Button
-                variant="ghost"
-                className="flex items-center gap-1 text-xs mt-2 -ml-1 p-0 px-1 h-auto text-muted-foreground hover:text-foreground"
-                onClick={toggleVendors}
-              >
-                {showAllVendors ? (
-                  <>
-                    <span>Show Less</span>
-                    <ChevronUp className="h-4 w-4 mt-0.5" />
-                  </>
-                ) : (
-                  <>
-                    <span>Show More</span>
-                    <ChevronDown className="h-4 w-4 mt-0.5" />
-                  </>
-                )}
-              </Button>
-            )}
-          </div> */}
           <div>
             <h3 className={cn("text-base font-semibold mb-3")}>Price</h3>
             <div className="space-y-3 -ml-2">
@@ -271,9 +224,9 @@ export function MarketplaceSection() {
             <h2
               className={cn("text-3xl md:text-4xl font-bold", domine.className)}
             >
-              {currentCategory
+              {category
                 ? categoriesResponse.data.categories.find(
-                    (category) => category.id === currentCategory,
+                    (cat) => cat.id === category,
                   )?.name
                 : "Marketplace"}
             </h2>
@@ -305,15 +258,15 @@ export function MarketplaceSection() {
           >
             <p>
               Showing {productsResponse.data.products.length} results
-              {(currentMin || currentMax) && (
+              {(min || max) && (
                 <span className="ml-1">
-                  {currentMin && `from $${currentMin}`}
-                  {currentMin && currentMax && " "}
-                  {currentMax && `to $${currentMax}`}
+                  {min && `from $${min}`}
+                  {min && max && " "}
+                  {max && `to $${max}`}
                 </span>
               )}
             </p>
-            <Select value={currentSort} onValueChange={handleSortChange}>
+            <Select value={sort} onValueChange={handleSortChange}>
               <SelectTrigger
                 className={cn(
                   "w-32 border-none focus:ring-0 focus:ring-offset-0",
@@ -322,10 +275,11 @@ export function MarketplaceSection() {
                 <SelectValue placeholder="Sort by" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="relevance">Relevance</SelectItem>
-                <SelectItem value="popularity">Popularity</SelectItem>
-                <SelectItem value="latest">Latest</SelectItem>
-                <SelectItem value="oldest">Oldest</SelectItem>
+                {SORT_OPTIONS.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>

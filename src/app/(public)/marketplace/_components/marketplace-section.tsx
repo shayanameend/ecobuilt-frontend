@@ -7,11 +7,10 @@ import type { CategoryType, ProductType } from "~/../types";
 import { useQuery } from "@tanstack/react-query";
 import { default as axios } from "axios";
 import {
-  ChevronDown,
-  ChevronUp,
+  ChevronDownIcon,
+  ChevronUpIcon,
   SearchIcon,
-  PackageOpen,
-  Loader2,
+  PackageOpenIcon,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -44,6 +43,8 @@ export function MarketplaceSection() {
   const [searchInput, setSearchInput] = useState("");
   const [minPrice, setMin] = useState("");
   const [maxPrice, setMax] = useState("");
+  const [minPriceInput, setMinInput] = useState("");
+  const [maxPriceInput, setMaxInput] = useState("");
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [showAllVendors, setShowAllVendors] = useState(false);
 
@@ -77,7 +78,6 @@ export function MarketplaceSection() {
       },
     },
     isLoading: productsLoading,
-    isFetching: productsFetching,
   } = useQuery<{
     data: {
       products: ProductType[];
@@ -136,13 +136,15 @@ export function MarketplaceSection() {
   };
 
   const applyPriceFilter = () => {
-    setMin(minPrice);
-    setMax(maxPrice);
+    setMin(minPriceInput);
+    setMax(maxPriceInput);
   };
 
   const resetPriceFilter = () => {
     setMin("");
     setMax("");
+    setMinInput("");
+    setMaxInput("");
   };
 
   return (
@@ -190,12 +192,12 @@ export function MarketplaceSection() {
                   {showAllCategories ? (
                     <>
                       <span>Show Less</span>
-                      <ChevronUp className="h-4 w-4 mt-0.5" />
+                      <ChevronUpIcon className="h-4 w-4 mt-0.5" />
                     </>
                   ) : (
                     <>
                       <span>Show More</span>
-                      <ChevronDown className="h-4 w-4 mt-0.5" />
+                      <ChevronDownIcon className="h-4 w-4 mt-0.5" />
                     </>
                   )}
                 </Button>
@@ -209,8 +211,8 @@ export function MarketplaceSection() {
                   type="number"
                   placeholder="Min"
                   className="h-8 text-sm"
-                  value={minPrice}
-                  onChange={(e) => setMin(e.target.value)}
+                  value={minPriceInput}
+                  onChange={(e) => setMinInput(e.target.value)}
                   min="0"
                   disabled={productsLoading}
                 />
@@ -219,9 +221,9 @@ export function MarketplaceSection() {
                   type="number"
                   placeholder="Max"
                   className="h-8 text-sm"
-                  value={maxPrice}
-                  onChange={(e) => setMax(e.target.value)}
-                  min={minPrice || "0"}
+                  value={maxPriceInput}
+                  onChange={(e) => setMaxInput(e.target.value)}
+                  min={minPriceInput || "0"}
                   disabled={productsLoading}
                 />
               </div>
@@ -231,7 +233,10 @@ export function MarketplaceSection() {
                   size="sm"
                   variant="outline"
                   className="text-xs"
-                  disabled={productsLoading || (!minPrice && !maxPrice)}
+                  disabled={
+                    productsLoading ||
+                    (!minPrice && !maxPrice && !minPriceInput && !maxPriceInput)
+                  }
                 >
                   Reset
                 </Button>
@@ -288,11 +293,7 @@ export function MarketplaceSection() {
               disabled={productsLoading}
             />
             <Button type="submit" size="icon" disabled={productsLoading}>
-              {productsFetching && !productsLoading ? (
-                <Loader2 size={24} className="animate-spin" />
-              ) : (
-                <SearchIcon size={24} />
-              )}
+              <SearchIcon size={24} />
             </Button>
           </form>
         </div>
@@ -361,7 +362,7 @@ export function MarketplaceSection() {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <PackageOpen className="h-16 w-16 text-muted-foreground mb-4" />
+              <PackageOpenIcon className="h-16 w-16 text-muted-foreground mb-4" />
               <h3 className="text-xl font-medium mb-2">No products found</h3>
               <p className="text-muted-foreground mb-6 max-w-md">
                 We couldn't find any products matching your criteria. Try
@@ -375,17 +376,14 @@ export function MarketplaceSection() {
                   setSearchInput("");
                   setMin("");
                   setMax("");
+                  setMinInput("");
+                  setMaxInput("");
                   setSort(SORT_OPTIONS[0].value);
                 }}
                 variant="outline"
               >
                 Reset all filters
               </Button>
-            </div>
-          )}
-          {productsFetching && !productsLoading && (
-            <div className="flex justify-center py-4">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
             </div>
           )}
         </div>

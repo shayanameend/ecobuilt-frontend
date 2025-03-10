@@ -1,8 +1,5 @@
-"use client";
-
-import { Suspense } from "react";
 import { cn } from "~/lib/utils";
-import { MarketplaceSection } from "./_components/marketplace-section";
+import { MarketplaceSection } from "~/app/(public)/marketplace/_components/marketplace-section";
 
 export default function MarketplacePage() {
   return (
@@ -12,9 +9,7 @@ export default function MarketplacePage() {
           "pt-6 pb-12 px-8 md:px-24 min-h-[calc(100svh_-_8rem)] flex",
         )}
       >
-        <Suspense fallback={<p>Loading marketplace items...</p>}>
-          <MarketplaceSection />
-        </Suspense>
+        <MarketplaceSection />
       </main>
     </>
   );

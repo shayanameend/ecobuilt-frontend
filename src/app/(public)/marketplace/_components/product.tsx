@@ -1,12 +1,9 @@
 import type { ProductType } from "~/../types";
 
-import { BoxIcon } from "lucide-react";
-
 import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,

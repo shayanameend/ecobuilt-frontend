@@ -26,17 +26,16 @@ export function WhySection() {
             We Work For You!
           </h2>
           <p className={"ml-1 text-muted-foreground text-lg font-medium"}>
-            At EcoBuilt Connect, we are committed to transforming the
-            construction industry by reducing waste, fostering sustainability,
-            and creating opportunities for a greener future. Our goal is to
-            revolutionize the way construction materials are sourced, reused,
-            and recycled.
+          EcoBuilt Connect brings you a trusted marketplace for 
+          recycled building materials. Our streamlined process
+           and commitment to green practices ensure you get 
+           the best value while supporting a more sustainable future.
           </p>
         </div>
         <div className={cn("space-x-4")}>
           <Link href={appRoutes.nav.marketplace.url()}>
             <Button variant="default" size="lg">
-              Become a Buyer
+            Browse Recycled Materials Now
             </Button>
           </Link>
         </div>

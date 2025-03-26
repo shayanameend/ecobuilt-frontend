@@ -20,7 +20,7 @@ export function TeamSection() {
           <h2
             className={cn("text-black/75 text-5xl font-bold", domine.className)}
           >
-            We Work For You!
+            Sell Sustainable Materials!
           </h2>
           <p className={"ml-1 text-muted-foreground text-lg font-medium"}>
             At EcoBuilt Connect, we are committed to transforming the
@@ -33,7 +33,7 @@ export function TeamSection() {
         <div className={cn("space-x-4")}>
           <Link href={appRoutes.nav.vendors.url()}>
             <Button variant="default" size="lg">
-              Become a Seller
+            Contribute to Waste Reduction
             </Button>
           </Link>
         </div>

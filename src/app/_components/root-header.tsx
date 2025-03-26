@@ -103,7 +103,7 @@ export function RootHeader() {
             </Button>
           ) : (
             <Button className={cn("ml-4")}>
-              <Link href={appRoutes.auth.signUp.url()}>Join Us</Link>
+              <Link href={appRoutes.auth.signUp.url()}>Start Your Journey</Link>
             </Button>
           )}
         </ul>

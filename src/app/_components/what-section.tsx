@@ -43,7 +43,7 @@ export function WhatSection() {
         <div className={cn("space-x-4")}>
           <Link href={appRoutes.nav.marketplace.url()}>
             <Button variant="default" size="lg">
-              Go to Marketplace
+            Explore Recycled Materials
             </Button>
           </Link>
         </div>
